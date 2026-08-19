@@ -1,0 +1,9 @@
+/vendor
+.env
+.env.*
+.phpunit.result.cache
+.idea
+.vscode
+*.log
+.dynamic-fields.license
+*.license

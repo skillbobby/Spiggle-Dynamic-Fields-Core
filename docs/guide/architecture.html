@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architecture — Spiggle Dynamic Fields</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header" id="top">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">S</span>
+      <span>Dynamic Fields <span class="brand-sub">Core · v1.2.0</span></span>
+    </a>
+    <button class="nav-toggle" type="button" onclick="document.getElementById('top').classList.toggle('open')">Menu</button>
+    <nav class="site-nav" aria-label="Documentation">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Overview</a>
+      <a href="usage.html">Usage</a>
+      <a class="active" href="architecture.html">Architecture</a>
+      <a href="workflows.html">Workflows</a>
+      <a href="features.html">Features</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <aside class="toc">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#concepts">Concepts</a></li>
+        <li><a href="#tables">Tables</a></li>
+        <li><a href="#save">How values save</a></li>
+        <li><a href="#mapper">Mapper</a></li>
+        <li><a href="#files">File storage</a></li>
+        <li><a href="#cache">Cache</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#vs">Vs Form Builder</a></li>
+      </ol>
+    </aside>
+
+    <main class="content" id="main">
+      <p class="meta"><span class="badge navy">Architecture</span></p>
+      <h1>How Dynamic Fields is put together</h1>
+      <p class="lead">The plugin is an EAV layer plus a Filament mapper. Definitions are data. Rendering is generated at runtime from those definitions.</p>
+
+      <h2 id="concepts">Core concepts</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Definition</h3>
+          <p>A <code>CustomField</code> row: target model FQCN, internal <code>name</code>, human <code>label</code>, <code>type</code>, required flag, validation rule strings, <code>meta</code> JSON, <code>sort_order</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Options</h3>
+          <p>Rows on <code>custom_field_options</code> for select, radio, multi-select, and tags: label, value, optional badge <code>color</code>, sort order.</p>
+        </div>
+        <div class="card">
+          <h3>Value</h3>
+          <p>One row per field per entity. Unique on <code>(custom_field_id, model_type, model_id)</code>. Stored as LONGTEXT plus a <code>value_type</code> used by <code>ValueCaster</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Mapper</h3>
+          <p><code>CustomFieldMapper</code> turns definitions into Filament form components, table columns, and infolist entries using the nested state key <code>custom_fields.{name}</code>.</p>
+        </div>
+      </div>
+
+      <h2 id="tables">Schema extras</h2>
+      <ul>
+        <li><code>custom_fields.sort_order</code> — deterministic display order.</li>
+        <li>Unique <code>(target_model, name)</code> on definitions.</li>
+        <li>Unique value row per field per entity (see above).</li>
+        <li>MySQL/MariaDB uses a <strong>191-character prefix index</strong> on <code>(custom_field_id, value)</code> because MySQL cannot index full LONGTEXT. Other drivers get a full composite index.</li>
+        <li>Options gained a <code>color</code> column in a later migration (used by tags badges).</li>
+      </ul>
+      <p>Value types written by <code>CustomField::valueType()</code>:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field type</th><th>Stored as</th></tr></thead>
+          <tbody>
+            <tr><td>boolean, toggle</td><td><code>boolean</code> (<code>1</code>/<code>0</code>)</td></tr>
+            <tr><td>date, datetime</td><td><code>date</code> (Carbon parse on read)</td></tr>
+            <tr><td>number</td><td><code>integer</code></td></tr>
+            <tr><td>multi_select, tags, file</td><td><code>json</code></td></tr>
+            <tr><td>everything else</td><td><code>string</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="save">How form values persist</h2>
+      <ol>
+        <li>Filament fills nested state <code>custom_fields = ['first_name' =&gt; 'Ada', …]</code> onto the model.</li>
+        <li><code>setCustomFieldsAttribute</code> queues that array on the model.</li>
+        <li>On the Eloquent <code>saved</code> event, the trait writes each pending value via <code>setCustomFieldValue</code>.</li>
+        <li><strong>File fields are skipped</strong> in that loop. Spatie Media Library attaches the upload; listeners then sync metadata into the EAV row.</li>
+      </ol>
+      <p>That is why host Create/Edit pages usually need no extra hooks, provided <code>custom_fields</code> is fillable (or you call <code>syncCustomFields</code> yourself).</p>
+
+      <h2 id="mapper">Mapper behavior</h2>
+      <ul>
+        <li>Loads definitions through <code>FieldDefinitionCache::forModel()</code>.</li>
+        <li>Applies label, required, extra Laravel rules, hint, placeholder.</li>
+        <li>Conditional visibility: <strong>Pro</strong>. <code>meta.visible_when.field</code> + <code>value</code>, or flat <code>meta.visible_when_field</code> / <code>visible_when_value</code>.</li>
+        <li>Non-file components hydrate from <code>$record-&gt;getCustomFieldValue()</code>.</li>
+        <li>Table search uses <code>whereHas('customFieldValues')</code> with a LIKE on the stored value.</li>
+        <li>Boolean/toggle columns are Filament icon boolean columns.</li>
+        <li>Tags and multi-select colored badges are <strong>Pro</strong>.</li>
+        <li>Image file fields (Pro) can use Spatie image columns/entries when <code>image_only</code> or <code>image_editor</code> is set.</li>
+      </ul>
+      <p><code>FieldTypes</code> helpers: <code>requiresOptions</code>, <code>storesArray</code>, <code>isBoolean</code>, <code>isFile</code>, <code>hasColoredOptions</code> (tags only).</p>
+
+      <h2 id="files">File fields (Pro)</h2>
+      <p>File uploads are not part of Core. With Pro:</p>
+      <ol>
+        <li>Host implements <code>HasMedia</code> and uses <code>HasCustomFieldMedia</code>.</li>
+        <li>Filament component is <code>SpatieMediaLibraryFileUpload</code> on collection <code>custom_field_{name}</code> (or <code>meta.collection</code>).</li>
+        <li>Disk: <code>meta.disk</code> (unless <code>default</code>) or <code>dynamic-fields.files.default_disk</code>.</li>
+        <li>On media added/deleted/collection cleared, <code>FileFieldSynchronizer</code> writes JSON metadata into EAV: collection, disk, media ids, uuids, file list (name, mime, size, url, custom properties).</li>
+        <li><code>getCustomFieldValue()</code> for file types reads live media, not a stale blob.</li>
+      </ol>
+      <p>Custom properties on each media item: original name, mime, size, field name, optional directory hint. Filenames can be slug-optimized.</p>
+      <p>If the host does not implement <code>HasMedia</code>, the File component still renders but uploads cannot attach. If the Spatie Filament plugin class is missing, the mapper shows a disabled text input with a helper message.</p>
+
+      <h2 id="cache">Definition cache</h2>
+      <p><code>FieldDefinitionCache</code> stores serialized definitions + options in Laravel Cache for <code>ttl</code> seconds (default 1 hour), keyed by <code>{prefix}:definitions:{md5(model)}</code>. Saving or deleting a field calls <code>forget()</code> for that target model. Disable with <code>cache.enabled = false</code> while iterating on definitions if needed.</p>
+
+      <h2 id="events">Events</h2>
+      <ul>
+        <li><code>CustomFieldCreated</code>, <code>CustomFieldUpdated</code>, <code>CustomFieldDeleted</code> — dispatched from the model.</li>
+        <li><code>CustomFieldValueSaved</code> — after each value upsert, with the value record and host model.</li>
+      </ul>
+      <p>Listen in the host app for webhooks, search indexing, or audit.</p>
+
+      <h2 id="vs">How this differs from Form Builder</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Dynamic Fields</th><th>Form Builder</th></tr></thead>
+          <tbody>
+            <tr><td>Purpose</td><td>Extra attributes on an Eloquent record</td><td>Standalone public/admin forms</td></tr>
+            <tr><td>Storage</td><td>EAV on the host (files via Spatie in Pro)</td><td><code>form_builder_submissions.data</code> JSON</td></tr>
+            <tr><td>UI</td><td>Injected into host Filament resources</td><td>Own Forms + Submissions resources + public Livewire page</td></tr>
+            <tr><td>Files</td><td>Pro: Spatie Media Library</td><td>Livewire upload to <code>form-submissions/{form_id}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Form Builder’s <code>Form::importCustomFields($ids)</code> copies definition snapshots into a form schema. After import, the two copies are independent.</p>
+
+      <div class="pager">
+        <a href="usage.html">← Usage</a>
+        <a href="workflows.html">Workflows →</a>
+      </div>
+    </main>
+    <p class="footer">Spiggle Dynamic Fields Core v1.2.0 · <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">GitHub</a></p>
+  </div>
+</body>
+</html>

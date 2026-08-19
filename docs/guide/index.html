@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spiggle Dynamic Fields Core — Documentation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header" id="top">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">S</span>
+      <span>Dynamic Fields <span class="brand-sub">Core · v1.2.0</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" onclick="document.getElementById('top').classList.toggle('open')">Menu</button>
+    <nav class="site-nav" aria-label="Documentation">
+      <a href="../index.html">Home</a>
+      <a class="active" href="index.html">Overview</a>
+      <a href="usage.html">Usage</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="workflows.html">Workflows</a>
+      <a href="features.html">Features</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <aside class="toc">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#what">What Core is</a></li>
+        <li><a href="#who">Who this is for</a></li>
+        <li><a href="#toc">Full contents</a></li>
+        <li><a href="#quick">Quick start</a></li>
+        <li><a href="#pro">Pro add-on</a></li>
+        <li><a href="#family">Related plugin</a></li>
+      </ol>
+    </aside>
+
+    <main class="content" id="main">
+      <div class="hero">
+        <p class="meta"><span class="badge navy">spiggle/dynamic-fields-core</span> <span class="badge">v1.2.0</span> <span class="badge teal">Filament 3 / 4 / 5</span> <span class="badge">MIT</span></p>
+        <h1>Free Core: dynamic custom fields for any Eloquent model</h1>
+        <p>This documentation is for the <strong>public Core</strong> package. Attach text, selects, dates, and toggles to User (or any model) without adding JSON columns. Values live in an EAV table. File uploads, tags, and multi-select are <strong>Pro</strong>.</p>
+      </div>
+
+      <h2 id="what">What Core is</h2>
+      <p class="lead">Spiggle Dynamic Fields Core is a free Laravel + Filament plugin that lets administrators define extra fields in the panel, then injects those fields into host resources (forms, tables, infolists).</p>
+      <p>It is <strong>not</strong> a public form product. For public capture, use <a href="https://skillbobby.github.io/Spiggle-Plugins/form-builder/">Spiggle Form Builder</a>. The two packages share field-type names; Form Builder can copy Dynamic Fields definitions into a form schema.</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>Admin users</h3>
+          <p>Create Core fields in <strong>System → Custom Fields</strong>, set types and options, and they appear on the target model’s resource. Clone and Pro types require a Pro license.</p>
+        </div>
+        <div class="card">
+          <h3>Developers</h3>
+          <p>Add <code>HasCustomFields</code> to a model, call <code>CustomFieldMapper</code> in a Filament schema, and values persist on save.</p>
+        </div>
+        <div class="card">
+          <h3>What is stored</h3>
+          <p>Definitions in <code>custom_fields</code>, options in <code>custom_field_options</code>, values in <code>custom_field_values</code>. File bytes are Pro (Spatie media), not Core blobs.</p>
+        </div>
+      </div>
+
+      <h2 id="who">Who this is for</h2>
+      <ul>
+        <li><strong>Filament operators</strong> who need extra profile or record attributes without a developer shipping a migration every time.</li>
+        <li><strong>Laravel developers</strong> wiring the free Core package into a host app.</li>
+        <li><strong>Shield / Spatie Permission</strong> admins who will grant <code>manage_custom_fields</code>.</li>
+      </ul>
+
+      <h2 id="toc">Documentation contents</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3><a href="usage.html">Usage guide</a></h3>
+          <p>Install Core from GitHub or Packagist, register the Filament plugin, publish config and migrations, host model traits, Shield permissions, Artisan commands, and config keys.</p>
+        </div>
+        <div class="card">
+          <h3><a href="architecture.html">Architecture</a></h3>
+          <p>EAV layout, mapper, caching, events, mass assignment, and how values appear on JSON. File storage is documented as a Pro concern.</p>
+        </div>
+        <div class="card">
+          <h3><a href="workflows.html">Workflows</a></h3>
+          <p>Step-by-step: create a field, add it to a resource, capture, validate, store, and present data.</p>
+        </div>
+        <div class="card">
+          <h3><a href="features.html">Features</a></h3>
+          <p>Every field type, marked <strong>Core</strong> or <strong>Pro</strong>, plus builder UX.</p>
+        </div>
+        <div class="card">
+          <h3><a href="support.html">Support &amp; FAQ</a></h3>
+          <p>Troubleshooting, GitHub issues on the public Core repo, and how this plugin relates to Form Builder.</p>
+        </div>
+        <div class="card">
+          <h3><a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">GitHub (Core)</a></h3>
+          <p>Public source, issues, and releases for <code>spiggle/dynamic-fields-core</code>. Download Core here.</p>
+        </div>
+      </div>
+
+      <h2 id="quick">Quick start</h2>
+      <p>On a fresh host app:</p>
+<pre><code>composer require spiggle/dynamic-fields-core
+php artisan vendor:publish --tag=dynamic-fields-config
+php artisan migrate</code></pre>
+      <p>Or clone / require the public repo: <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">skillbobby/Spiggle-Dynamic-Fields-Core</a>.</p>
+      <p>Register the plugin on the panel, add <code>HasCustomFields</code>, then map fields into a resource:</p>
+<pre><code>use Spiggle\DynamicFields\Filament\DynamicFieldsPlugin;
+use Spiggle\DynamicFields\Facades\CustomFieldMapper;
+
+$panel-&gt;plugin(DynamicFieldsPlugin::make());
+
+Section::make('Custom Profile Data')
+    -&gt;schema(CustomFieldMapper::makeFormFields(User::class));</code></pre>
+      <p>Full steps, Shield, and seed commands are in the <a href="usage.html">usage guide</a>.</p>
+
+      <h2 id="pro">Pro add-on (paid)</h2>
+      <p>Pro adds file fields, tags, multi-select, RichEditor, conditional visibility, clone, and license activation. Price: <strong>$29.99</strong> limited-time deal (normally $49.99). See <a href="../index.html#pricing">product pricing</a>. Open a <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues/new?title=Buy%20Dynamic%20Fields%20Pro">Buy Pro issue</a> on this public repo. Pro source is not public.</p>
+
+      <h2 id="family">Related plugin</h2>
+      <p><strong>Spiggle Form Builder</strong> (<code>spiggle/form-builder</code>) builds public forms. It reuses Dynamic Fields types via <code>FieldCatalog</code> when this package is installed. Submissions do <em>not</em> write to <code>custom_field_values</code>.</p>
+      <p>Site: <a href="https://skillbobby.github.io/Spiggle-Plugins/form-builder/">Spiggle Form Builder</a>. Repo: <a href="https://github.com/skillbobby/Spiggle-Form-Builder">skillbobby/Spiggle-Form-Builder</a>.</p>
+
+      <div class="pager">
+        <span></span>
+        <a href="usage.html">Usage guide →</a>
+      </div>
+    </main>
+
+    <p class="footer">Spiggle Dynamic Fields Core v1.2.0 · <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">GitHub</a></p>
+  </div>
+</body>
+</html>

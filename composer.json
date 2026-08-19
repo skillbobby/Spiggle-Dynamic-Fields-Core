@@ -1,0 +1,52 @@
+{
+    "name": "spiggle/dynamic-fields-core",
+    "description": "Filament Dynamic Custom Fields (EAV) for Laravel — Core field types, Field Manager, and mapper.",
+    "type": "library",
+    "version": "1.2.0",
+    "license": "MIT",
+    "homepage": "https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core",
+    "support": {
+        "issues": "https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues",
+        "source": "https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core",
+        "docs": "https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/"
+    },
+    "keywords": [
+        "laravel",
+        "filament",
+        "eav",
+        "custom-fields",
+        "dynamic-fields",
+        "spiggle"
+    ],
+    "authors": [
+        {
+            "name": "Spiggle"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^3.3|^4.0|^5.0",
+        "illuminate/support": ">=11.0",
+        "illuminate/database": ">=11.0",
+        "illuminate/validation": ">=11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spiggle\\DynamicFields\\": "src/",
+            "Spiggle\\DynamicFields\\Database\\Factories\\": "database/factories/",
+            "Spiggle\\DynamicFields\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spiggle\\DynamicFields\\DynamicFieldsServiceProvider"
+            ],
+            "aliases": {
+                "CustomFieldMapper": "Spiggle\\DynamicFields\\Facades\\CustomFieldMapper"
+            }
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

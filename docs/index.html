@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spiggle Dynamic Fields Core — Free custom fields for Laravel + Filament</title>
+  <meta name="description" content="Free MIT Core package: EAV custom fields for Laravel + Filament. Text, select, dates, toggles, Field Manager, and mapper. Pro adds files, tags, multi-select, and licensing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">S</span>
+        <span class="brand-text">
+          <strong>Dynamic Fields</strong>
+          <span>Core · free MIT</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a class="hide-sm" href="#features">Core features</a>
+        <a class="hide-sm" href="#pro">Pro</a>
+        <a class="hide-sm" href="#pricing">Pricing</a>
+        <a class="hide-sm" href="guide/">Docs</a>
+        <a class="btn btn-amber" href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">Free download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Laravel · Filament 3 / 4 / 5 · Core v1.2.0 · MIT</div>
+          <h1>Dynamic custom fields <em>without</em> migration churn</h1>
+          <p class="lead"><strong>This package is Dynamic Fields Core</strong> — free to download, clone, and use. Admins define text, selects, dates, and toggles in Filament; values live in a clean EAV store. Upgrade to <strong>Pro</strong> when you need files, tags, multi-select, rich text, and license-backed extras.</p>
+          <div class="hero-actions">
+            <a class="btn btn-amber" href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">Download Core on GitHub</a>
+            <a class="btn btn-ghost" href="#pricing">Get Pro</a>
+            <a class="btn btn-ghost" href="#demo">Watch demo</a>
+          </div>
+          <div class="hero-meta">
+            <span><i></i> Free MIT Core</span>
+            <span><i></i> Filament Field Manager included</span>
+            <span><i></i> No JSON column required</span>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="What Core includes">
+          <h3>What this Core package includes</h3>
+          <pre class="install mono">composer require spiggle/dynamic-fields-core
+
+HasCustomFields trait
+CustomFieldMapper helpers
+Filament Field Manager
+12 Core field types</pre>
+          <div class="chip-row">
+            <span class="chip">HasCustomFields</span>
+            <span class="chip">CustomFieldMapper</span>
+            <span class="chip">Export / import</span>
+            <span class="chip">MIT</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="light" id="demo">
+      <div class="container">
+        <div class="section-head">
+          <h2>See it in action</h2>
+          <p>Walk through field creation, Filament injection, and how Dynamic Fields pairs with Form Builder.</p>
+        </div>
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/c5VcwW3_Vfk"
+            title="Spiggle Dynamic Fields demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <div class="section-head">
+          <h2>Free in Core</h2>
+          <p>Everything below ships in <code>spiggle/dynamic-fields-core</code>. Clone the public repo, require it with Composer, and start defining fields.</p>
+        </div>
+        <div class="features">
+          <article class="feature">
+            <div class="feature-icon">01</div>
+            <h3>Core field catalog</h3>
+            <p>Text, email, phone, URL, number, plain textarea, select, radio, date, datetime, boolean, and toggle — mapped to native Filament inputs.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">02</div>
+            <h3>Filament Field Manager</h3>
+            <p>Create and manage definitions in the panel. Options, validation rules, hints, and sort order appear where operators expect them. Pro types show a <strong>PRO</strong> badge until you license Pro.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">03</div>
+            <h3>Drop-in model trait</h3>
+            <p><code>HasCustomFields</code> wires any Eloquent model. <code>CustomFieldMapper</code> builds form, table, and infolist components from your definitions.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">04</div>
+            <h3>EAV done carefully</h3>
+            <p>Definitions, options, and values are normalized tables — not a dumping-ground JSON column. Events and caching keep reads snappy.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">05</div>
+            <h3>Ops tooling</h3>
+            <p>Seed standard user fields, export/import definitions, and verify setup. Shield-compatible permission names are ready when you use Spatie Permission.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">06</div>
+            <h3>Open source</h3>
+            <p>MIT licensed. Download from <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">GitHub</a>. Pro is a separate paid add-on — Core source does not include Pro drivers or license code.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="light" id="pro">
+      <div class="container">
+        <div class="section-head">
+          <h2>Premium features in Pro</h2>
+          <p>Pro is a licensed add-on. It is <strong>not</strong> in this public Core repository. Buy Pro, then install <code>spiggle/dynamic-fields-pro</code> on your host.</p>
+        </div>
+        <div class="features">
+          <article class="feature">
+            <div class="feature-icon">P1</div>
+            <h3>File uploads</h3>
+            <p>Spatie Media Library collections, disks (including S3), MIME limits, image editor, conversions, and reorderable previews.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">P2</div>
+            <h3>Tags &amp; multi-select</h3>
+            <p>TagsInput with colored badges, searchable multi-select, min/max selections, and option colors.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">P3</div>
+            <h3>Rich editor &amp; visibility</h3>
+            <p>Optional RichEditor on textarea, conditional <code>visible_when</code>, clone action, and colored badge HTML in tables.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">P4</div>
+            <h3>License activation</h3>
+            <p>Activate a license key in Filament. Drivers bind only on a licensed server. Source is delivered to license holders — not published on GitHub.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="container">
+        <div class="section-head">
+          <h2>From zero to custom attributes</h2>
+          <p>Three steps between a Core install and fields live on your resources.</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <div class="step-num">1</div>
+            <h3>Install Core</h3>
+            <p>Download from GitHub or require <code>spiggle/dynamic-fields-core</code>, publish config, migrate, and register <code>DynamicFieldsPlugin</code> on your Filament panel.</p>
+          </article>
+          <article class="step">
+            <div class="step-num">2</div>
+            <h3>Trait your model</h3>
+            <p>Add <code>HasCustomFields</code>. Map components with <code>CustomFieldMapper</code> in your resource schema. File fields need Pro plus the media trait.</p>
+          </article>
+          <article class="step">
+            <div class="step-num">3</div>
+            <h3>Define in the panel</h3>
+            <p>Operators create Core fields under System → Custom Fields. No migration. No redeploy. Values save with the host record.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="light" id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <h2>Core is free. Pro is a limited-time deal.</h2>
+          <p>Download Core from the public GitHub repo. Purchase Pro for premium field types — checkout via Lemon Squeezy when a store URL is configured, or open a purchase issue on the public Core repo.</p>
+        </div>
+        <div class="pricing-note">Limited-time deal on Pro · Core stays MIT forever</div>
+        <div class="pricing">
+          <article class="price-card">
+            <h3>Core</h3>
+            <p class="muted">This public package — free forever</p>
+            <div class="price"><strong>Free</strong></div>
+            <ul class="price-list">
+              <li>12 Core field types</li>
+              <li>Field Manager + mapper</li>
+              <li>EAV tables, events, cache</li>
+              <li>Export / import / seed / verify</li>
+              <li>MIT license · commercial use</li>
+              <li>Public GitHub source</li>
+            </ul>
+            <div class="price-actions">
+              <a class="btn btn-dark" href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">Download Core</a>
+              <a class="btn btn-outline-dark" href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/releases">Releases</a>
+            </div>
+          </article>
+          <article class="price-card featured">
+            <span class="badge-pop">Limited-time deal</span>
+            <h3>Pro</h3>
+            <p class="muted">Licensed add-on for premium types</p>
+            <div class="price">
+              <span class="price-was">$49.99</span>
+              <strong>$29.99</strong>
+            </div>
+            <ul class="price-list">
+              <li>File uploads (Spatie Media)</li>
+              <li>Tags, multi-select, rich textarea</li>
+              <li>Conditional visibility + clone</li>
+              <li>License activation in Filament</li>
+              <li>Private package for license holders</li>
+              <li>Everything in Core, plus Pro drivers</li>
+            </ul>
+            <div class="price-actions">
+              <a class="btn btn-amber" href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues/new?title=Buy%20Dynamic%20Fields%20Pro">Get Pro</a>
+              <a class="btn btn-ghost" href="guide/">Read the docs</a>
+            </div>
+          </article>
+        </div>
+        <p class="license-note">Lemon Squeezy checkout is not public yet. Set <code>LEMON_SQUEEZY_CHECKOUT_URL</code> on your host when the store link is live. Until then, open a <strong>Buy Dynamic Fields Pro</strong> issue on the public Core repo — do not email. Pro source is not on a public GitHub repository.</p>
+      </div>
+    </section>
+
+    <section id="ecosystem">
+      <div class="container eco">
+        <article class="eco-card">
+          <h3>Recommended: Spiggle Form Builder</h3>
+          <p>Need public capture, wizards, tabs, submission inboxes, and exports? Pair Dynamic Fields with Form Builder — shared field types, portable schemas, and a Livewire public renderer.</p>
+          <div class="hero-actions">
+            <a class="btn btn-amber" href="https://skillbobby.github.io/Spiggle-Plugins/form-builder/">Visit Form Builder site</a>
+            <a class="btn btn-ghost" href="https://github.com/skillbobby/Spiggle-Form-Builder">Form Builder on GitHub</a>
+          </div>
+        </article>
+        <aside class="eco-side">
+          <h4>Ready for Pro?</h4>
+          <p>Core is enough for standard attributes. Get Pro when you need files, tags, multi-select, or a bound license. Use the Get Pro button — purchase is not by email.</p>
+          <a class="btn btn-ghost" href="#pricing">View Pro pricing →</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Start with free Core today</h2>
+        <p>Clone the public repo, register the plugin, and define fields on your models. Upgrade to Pro when you need premium types.</p>
+        <div class="cta-actions">
+          <a class="btn btn-amber" href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">Download Core on GitHub</a>
+          <a class="btn btn-ghost" href="#pricing">Get Pro — $29.99</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© <span id="y"></span> Spiggle · Dynamic Fields Core</div>
+      <nav aria-label="Footer">
+        <a href="#pricing">Pricing</a>
+        <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">GitHub</a>
+        <a href="guide/">Docs</a>
+        <a href="https://skillbobby.github.io/Spiggle-Plugins/form-builder/">Form Builder</a>
+      </nav>
+    </div>
+  </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>

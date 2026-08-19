@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Features — Spiggle Dynamic Fields</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header" id="top">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">S</span>
+      <span>Dynamic Fields <span class="brand-sub">Core · v1.2.0</span></span>
+    </a>
+    <button class="nav-toggle" type="button" onclick="document.getElementById('top').classList.toggle('open')">Menu</button>
+    <nav class="site-nav" aria-label="Documentation">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Overview</a>
+      <a href="usage.html">Usage</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="workflows.html">Workflows</a>
+      <a class="active" href="features.html">Features</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <aside class="toc">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#types">Field types</a></li>
+        <li><a href="#textarea">Textarea &amp; rich editor</a></li>
+        <li><a href="#selects">Select, radio, multi-select</a></li>
+        <li><a href="#tags">Tags &amp; colors</a></li>
+        <li><a href="#toggle">Boolean &amp; toggle</a></li>
+        <li><a href="#file">File uploads</a></li>
+        <li><a href="#dates">Dates &amp; numbers</a></li>
+        <li><a href="#ui">Builder UI</a></li>
+        <li><a href="#conditional">Conditional visibility</a></li>
+        <li><a href="#manager">Field manager</a></li>
+      </ol>
+    </aside>
+
+    <main class="content" id="main">
+      <p class="meta"><span class="badge navy">Features</span> <span class="badge">every type and control</span></p>
+      <h1>User support for every feature</h1>
+      <p class="lead">This catalog matches the Field Manager UI in Core v1.2.0. Types live in <code>config/dynamic-fields.php</code> under <code>field_types</code>. Rows marked <strong>Pro</strong> appear in the dropdown with a PRO badge until you license Pro.</p>
+
+      <h2 id="types">Field types at a glance</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Type key</th><th>Admin label</th><th>Tier</th><th>Filament control</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>text</code></td><td>Text</td><td>Core</td><td>TextInput</td><td>Default type</td></tr>
+            <tr><td><code>email</code></td><td>Email</td><td>Core</td><td>TextInput email</td><td>Use for extra addresses; login email stays on <code>users.email</code></td></tr>
+            <tr><td><code>phone</code></td><td>Phone</td><td>Core</td><td>TextInput tel</td><td></td></tr>
+            <tr><td><code>url</code></td><td>URL</td><td>Core</td><td>TextInput url</td><td></td></tr>
+            <tr><td><code>number</code></td><td>Number</td><td>Core</td><td>numeric TextInput</td><td>Stored as integer</td></tr>
+            <tr><td><code>textarea</code></td><td>Textarea</td><td>Core (plain) / Pro (editor)</td><td>Textarea or RichEditor</td><td>Core always uses Textarea; RichEditor is Pro</td></tr>
+            <tr><td><code>select</code></td><td>Select</td><td>Core</td><td>Select, non-native</td><td>Needs options</td></tr>
+            <tr><td><code>radio</code></td><td>Radio</td><td>Core</td><td>Radio</td><td>Needs options</td></tr>
+            <tr><td><code>multi_select</code></td><td>Multi-select</td><td>Pro</td><td>Select multiple + searchable</td><td>JSON array; min/max selections</td></tr>
+            <tr><td><code>tags</code></td><td>Tags</td><td>Pro</td><td>TagsInput</td><td>Colored badges; suggestions from options</td></tr>
+            <tr><td><code>date</code></td><td>Date</td><td>Core</td><td>DatePicker</td><td></td></tr>
+            <tr><td><code>datetime</code></td><td>Date &amp; Time</td><td>Core</td><td>DateTimePicker</td><td></td></tr>
+            <tr><td><code>boolean</code></td><td>Boolean</td><td>Core</td><td>Toggle</td><td>Icon column / infolist</td></tr>
+            <tr><td><code>toggle</code></td><td>Toggle</td><td>Core</td><td>Toggle</td><td>Same storage as boolean</td></tr>
+            <tr><td><code>file</code></td><td>File</td><td>Pro</td><td>SpatieMediaLibraryFileUpload</td><td>Requires HasMedia host + Pro</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="textarea">Textarea and optional RichEditor</h2>
+      <p>Plain textarea is the <strong>Core</strong> default. In <strong>Textarea options</strong>:</p>
+      <ul>
+        <li><strong>Use built-in text editor</strong> — <strong>Pro</strong>. Sets <code>meta.use_editor</code>. Without Pro, Core always maps <code>textarea</code> to Filament <code>Textarea</code>.</li>
+        <li><strong>Rows</strong> — only shown when the editor is off; default 3.</li>
+      </ul>
+      <p>Existing fields stay plain until you enable the editor. Infolists render rich values as HTML. HTML is stored as given in EAV (this is an authenticated Filament form, not a public page).</p>
+      <p>Extended seed field: <code>about_html</code> (editor on). Standard seed field: <code>bio</code> (plain, 4 rows).</p>
+
+      <h2 id="selects">Select, radio, multi-select</h2>
+      <p>All four option types (including tags) use the Options repeater.</p>
+      <h3>Select</h3>
+      <p>Single value. Table/infolist show the option <em>label</em> when the stored value matches an option key.</p>
+      <h3>Radio</h3>
+      <p>Same data as select; different control.</p>
+      <h3>Multi-select</h3>
+      <p><strong>Pro.</strong> Filament Select with <code>multiple()</code>, searchable. Stored as a JSON array of option values. Optional <code>meta.min_selections</code> / <code>max_selections</code> map to <code>minItems</code> / <code>maxItems</code>. Table/infolist show colored badges. Extended seed: <code>skills</code> (min 1, max 5).</p>
+
+      <h2 id="tags">Tags and colored badges</h2>
+      <p><strong>Pro.</strong> Core shows Tags in the type dropdown with a PRO badge.</p>
+      <ul>
+        <li>TagsInput with suggestions from option labels and values, reorderable, split on Tab and Enter.</li>
+        <li>Min/max selections become array min/max validation rules.</li>
+        <li>Each option can set <strong>Badge color</strong> (Filament theme names: primary, success, warning, danger, info, gray, and a wider palette in config). Empty color auto-assigns by sort index.</li>
+        <li>Hex colors are supported in the theme helper if you set them in data; the admin select lists named theme colors.</li>
+        <li>The input’s Filament color uses the first named option color when present.</li>
+        <li>Lists render <code>fi-badge fi-color-{name}</code> HTML (or inline style for hex).</li>
+      </ul>
+      <p>Palette is configurable under <code>dynamic-fields.tags.colors</code>. Extended seed: <code>interests</code> with explicit colors per option.</p>
+
+      <h2 id="toggle">Boolean and toggle</h2>
+      <p>Both types render as a Filament Toggle and store boolean. Tables and infolists use boolean icon columns/entries. Use whichever label fits the UX; behavior is the same. Standard seed: <code>marketing_opt_in</code> (boolean). Extended: <code>beta_access</code> (toggle).</p>
+
+      <h2 id="file">File uploads (Pro — Spatie Media Library)</h2>
+      <p><strong>Pro.</strong> The Field Manager section <strong>File upload</strong> is shown for upsell; drivers bind only with a Pro license. Bytes are not stored in EAV. Controls:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Control</th><th>Meta key</th><th>Behavior</th></tr></thead>
+          <tbody>
+            <tr><td>Allow multiple files</td><td><code>multiple</code></td><td>Multi upload; collection is not single-file</td></tr>
+            <tr><td>Storage disk</td><td><code>disk</code></td><td>Any disk from <code>filesystems.disks</code>, plus “Default”. S3 works when the disk is configured</td></tr>
+            <tr><td>Media collection</td><td><code>collection</code></td><td>Blank → <code>custom_field_{name}</code></td></tr>
+            <tr><td>Directory hint</td><td><code>directory</code></td><td>Custom property only; Spatie still organizes by media id</td></tr>
+            <tr><td>Accepted MIME types</td><td><code>accepted_mime_types</code></td><td>Tags; also applied to the Spatie collection</td></tr>
+            <tr><td>Max size (KB)</td><td><code>max_size_kb</code></td><td>Filament maxSize</td></tr>
+            <tr><td>Min / max files</td><td><code>min_files</code>, <code>max_files</code></td><td>Only when multiple is on</td></tr>
+            <tr><td>Images only</td><td><code>image_only</code></td><td>Image upload + optional dimension rules</td></tr>
+            <tr><td>Min/max width/height</td><td><code>image_min_width</code> etc.</td><td>Laravel <code>dimensions:</code> rule when images only</td></tr>
+            <tr><td>Enable image editor</td><td><code>image_editor</code></td><td>Filament image editor</td></tr>
+            <tr><td>Downloadable / openable / previewable</td><td>defaults true</td><td>Filament file UI</td></tr>
+            <tr><td>Reorderable</td><td>default true when multiple</td><td>Drag order of files</td></tr>
+            <tr><td>Optimize file names</td><td>default true</td><td>e.g. <code>my-resume-a1b2c3d4.pdf</code></td></tr>
+            <tr><td>Image conversions</td><td><code>conversions[]</code></td><td>name, width, height; registered on the host via HasCustomFieldMedia; first conversion name used for table/infolist image display</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>If conversions are empty but the field is image-only or has the editor, the trait registers a default <code>thumb</code> 150×150 (requires GD or Imagick). Conversions run <code>nonQueued()</code>.</p>
+      <p>Extended seed: <code>profile_documents</code> — multiple, public disk, 5 MB, PDF/JPEG/PNG/WebP/text, thumb conversion, reorder/preview/download.</p>
+
+      <h2 id="dates">Dates, numbers, contact types</h2>
+      <ul>
+        <li><strong>Date / Date &amp; Time</strong> — non-native pickers; stored via Carbon; table shows <code>Y-m-d</code> or <code>Y-m-d H:i</code>.</li>
+        <li><strong>Number</strong> — numeric input; integer storage.</li>
+        <li><strong>Email / Phone / URL / Text</strong> — matching HTML input modes plus optional extra rules.</li>
+      </ul>
+
+      <h2 id="ui">Builder UI (Field Manager)</h2>
+      <ul>
+        <li><strong>Collapsed option rows</strong> show the option label so you can scan a long list without expanding every row. Repeaters are collapsible, reorderable, and deletable.</li>
+        <li><strong>Conversion repeater</strong> on file fields uses the conversion name as the collapsed item label.</li>
+        <li><strong>Create redirects to the index</strong> after save (not the edit screen).</li>
+        <li>Definition form is a two-column section: target model, name, label, type (live), required, sort order, validation tags, hint, placeholder, group, visibility pair.</li>
+        <li>List columns: label, name (badge), type (badge), model basename (tooltip = FQCN), required icon, options count, hidden sort/updated toggles.</li>
+      </ul>
+
+      <h2 id="conditional">Conditional visibility</h2>
+      <p><strong>Pro.</strong> Set <strong>Visible when field</strong> to another field’s internal name and <strong>Visible when value</strong> to the expected value (compared as strings). Nested <code>meta.visible_when = { field, value }</code> is also honored by the Pro mapper. Without Pro, Core intercepts these fields with an upsell.</p>
+
+      <h2 id="manager">Other manager capabilities</h2>
+      <ul>
+        <li><strong>Clone</strong> action with confirmation — <strong>Pro</strong> (Core shows Clone · PRO and an upsell). Copies options including colors.</li>
+        <li><strong>Bulk delete</strong> on the table.</li>
+        <li><strong>Model discovery</strong> for the target dropdown — configure extra paths or exclude classes.</li>
+        <li><strong>Validation rules</strong> as a TagsInput of Laravel rule strings, stored as JSON on the definition.</li>
+        <li><strong>Group</strong> meta is stored for your seeders/layout; the default mapper does not auto-split sections by group (wrap mapper output yourself if you want grouped sections).</li>
+      </ul>
+
+      <div class="pager">
+        <a href="workflows.html">← Workflows</a>
+        <a href="support.html">Support →</a>
+      </div>
+    </main>
+    <p class="footer">Spiggle Dynamic Fields Core v1.2.0 · <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">GitHub</a></p>
+  </div>
+</body>
+</html>

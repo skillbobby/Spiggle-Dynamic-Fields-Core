@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workflows — Spiggle Dynamic Fields</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header" id="top">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">S</span>
+      <span>Dynamic Fields <span class="brand-sub">Core · v1.2.0</span></span>
+    </a>
+    <button class="nav-toggle" type="button" onclick="document.getElementById('top').classList.toggle('open')">Menu</button>
+    <nav class="site-nav" aria-label="Documentation">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Overview</a>
+      <a href="usage.html">Usage</a>
+      <a href="architecture.html">Architecture</a>
+      <a class="active" href="workflows.html">Workflows</a>
+      <a href="features.html">Features</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <aside class="toc">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#admin-create">Create a field (admin)</a></li>
+        <li><a href="#admin-options">Options, clone, order</a></li>
+        <li><a href="#dev-wire">Add to a resource (dev)</a></li>
+        <li><a href="#capture">Capture, validate, store</a></li>
+        <li><a href="#present">Present data</a></li>
+        <li><a href="#seed">Seed a starter set</a></li>
+        <li><a href="#export">Export / import definitions</a></li>
+        <li><a href="#code">Read/write in PHP</a></li>
+      </ol>
+    </aside>
+
+    <main class="content" id="main">
+      <p class="meta"><span class="badge navy">Workflows</span></p>
+      <h1>Step-by-step workflows</h1>
+      <p class="lead">Admin steps assume you can open the Filament panel and see <strong>System → Custom Fields</strong>. Developer steps assume the plugin is registered as in the <a href="usage.html">usage guide</a>.</p>
+
+      <h2 id="admin-create">Create a custom field (admin)</h2>
+      <ol class="steps">
+        <li>Sign in to the Filament panel (starter path: <code>/admin</code>).</li>
+        <li>Open <strong>Custom Fields</strong> in the System group.</li>
+        <li>Click <strong>Create</strong>.</li>
+        <li>Choose <strong>Target Model</strong> from discovered Eloquent models (default scan: <code>app/Models</code>). Example: <code>User (App\Models\User)</code>.</li>
+        <li>Set <strong>Internal Name</strong> — snake_case, letters/numbers/dashes/underscores only, unique per model. This is the storage and code key (<code>first_name</code>, <code>skills</code>).</li>
+        <li>Set the human <strong>Label</strong> shown on forms and tables.</li>
+        <li>Pick a <strong>Field Type</strong>. Extra sections appear for textarea, multi-select/tags, file, and option lists. See <a href="features.html">Features</a>.</li>
+        <li>Toggle <strong>Required</strong> if the host form must not submit empty.</li>
+        <li>Optional: <strong>Sort order</strong> (lower first), Laravel <strong>Validation Rules</strong> as tags (<code>max:255</code>, <code>email</code>), <strong>Hint</strong>, <strong>Placeholder</strong>, <strong>Group</strong> (for seeders/layout), and conditional visibility fields.</li>
+        <li>Save. You are redirected to the <strong>list</strong>, not the edit page.</li>
+      </ol>
+      <div class="callout admin">
+        <strong>Nothing appears on Users yet?</strong>
+        The host User resource must include <code>CustomFieldMapper::makeFormFields(User::class)</code>. The starter already does. Other models need that one-time developer step.
+      </div>
+
+      <h2 id="admin-options">Options, clone, and ordering</h2>
+      <ol class="steps">
+        <li>For Select, Radio, Multi-select, or Tags, expand <strong>Options</strong>.</li>
+        <li>Add rows with Label and Value. Collapsed rows show the option label (or value if the label is empty). Drag to reorder.</li>
+        <li>For Tags, optionally pick a <strong>Badge color</strong>. Empty = auto from the theme palette.</li>
+        <li>On the list, <strong>Clone</strong> is a <strong>Pro</strong> action (Core shows Clone · PRO). With Pro it duplicates a field (name becomes <code>{name}_copy</code>).</li>
+        <li>Filters: target model and type. Default sort is <code>sort_order</code>.</li>
+      </ol>
+
+      <h2 id="dev-wire">Add fields to a Filament resource (developer)</h2>
+      <ol class="steps">
+        <li>Add <code>HasCustomFields</code> to the Eloquent model. File fields are Pro: add <code>HasMedia</code> + <code>HasCustomFieldMedia</code> only when Pro is installed.</li>
+        <li>Put <code>custom_fields</code> on fillable (or sync in a hook).</li>
+        <li>In the resource form schema, spread mapper components into a Section.</li>
+        <li>On the table, <code>modifyQueryUsing(fn ($q) =&gt; $q-&gt;withCustomFields())</code> and spread <code>makeTableColumns</code>.</li>
+        <li>On a view page, use <code>makeInfolistEntries</code>.</li>
+        <li>Create a Custom Field targeting that model class. Open Create/Edit on the resource — the new input is there, in sort order.</li>
+      </ol>
+      <p>Starter reference: <code>app/Filament/Resources/Users/Schemas/UserForm.php</code> and <code>UsersTable.php</code>.</p>
+
+      <h2 id="capture">Capture, validate, and store</h2>
+      <ol class="steps">
+        <li>Open a User (or your model) Create/Edit page in Filament.</li>
+        <li>Fill account fields and the <strong>Custom Profile Data</strong> section.</li>
+        <li>Built-in type validation runs (email, url, numeric, required). Extra rule tags from the definition also run.</li>
+        <li>Save the record. Non-file values write to <code>custom_field_values</code>. Files attach to the model’s media collection; metadata is synced automatically.</li>
+        <li>Re-open the record: values hydrate from EAV / media, not from a JSON column on <code>users</code>.</li>
+      </ol>
+      <p>Conditional fields (<strong>Pro</strong>) only show when another custom field’s current value matches <strong>Visible when value</strong>.</p>
+
+      <h2 id="present">Present data</h2>
+      <ul>
+        <li><strong>Table:</strong> toggleable columns; booleans as icons; tags/multi-select as colored badges; image files as Spatie image columns when marked image-only/editor.</li>
+        <li><strong>Infolist:</strong> same casting; rich textarea shown as HTML; placeholder “—” when empty.</li>
+        <li><strong>API / JSON:</strong> if <code>append_to_json</code> is true, each model includes a <code>custom_fields</code> object keyed by internal name.</li>
+      </ul>
+
+      <h2 id="seed">Seed a realistic User profile set</h2>
+<pre><code>php artisan dynamic-fields:seed-user-fields
+php artisan dynamic-fields:verify</code></pre>
+      <p>Use <code>--fresh</code> on the seed command only when you intend to delete existing fields for that model. <code>dynamic-fields:seed-extended-fields</code> is <strong>Pro</strong> (multi-select, tags, files, rich textarea).</p>
+
+      <h2 id="export">Move definitions between environments</h2>
+<pre><code>php artisan dynamic-fields:export --path=storage/app/custom-fields-export.json
+php artisan dynamic-fields:import storage/app/custom-fields-export.json</code></pre>
+      <p>Import updates by <code>(target_model, name)</code> and replaces options. It does not copy stored values or media.</p>
+
+      <h2 id="code">Read and write in application code</h2>
+<pre><code>$user-&gt;getCustomFieldValue('department');      // 'engineering'
+$user-&gt;setCustomFieldValue('bio', 'Hello');
+$user-&gt;syncCustomFields(['first_name' =&gt; 'Ada', 'skills' =&gt; ['php', 'laravel']]);
+
+$files = $user-&gt;getCustomFieldValue('profile_documents');
+// ['collection' =&gt; 'custom_field_profile_documents', 'media_ids' =&gt; [...], 'files' =&gt; [...]]</code></pre>
+
+      <div class="pager">
+        <a href="architecture.html">← Architecture</a>
+        <a href="features.html">Features →</a>
+      </div>
+    </main>
+    <p class="footer">Spiggle Dynamic Fields Core v1.2.0 · <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues">Issues</a></p>
+  </div>
+</body>
+</html>

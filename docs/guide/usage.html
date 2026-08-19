@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Usage — Spiggle Dynamic Fields</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header" id="top">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">S</span>
+      <span>Dynamic Fields <span class="brand-sub">Core · v1.2.0</span></span>
+    </a>
+    <button class="nav-toggle" type="button" onclick="document.getElementById('top').classList.toggle('open')">Menu</button>
+    <nav class="site-nav" aria-label="Documentation">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Overview</a>
+      <a class="active" href="usage.html">Usage</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="workflows.html">Workflows</a>
+      <a href="features.html">Features</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <aside class="toc">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#requirements">Requirements</a></li>
+        <li><a href="#install">Install</a></li>
+        <li><a href="#publish">Publish &amp; migrate</a></li>
+        <li><a href="#plugin">Register the plugin</a></li>
+        <li><a href="#model">Host model</a></li>
+        <li><a href="#resource">Filament resource</a></li>
+        <li><a href="#shield">Permissions / Shield</a></li>
+        <li><a href="#commands">Artisan commands</a></li>
+        <li><a href="#config">Configuration</a></li>
+        <li><a href="#api">Trait API</a></li>
+      </ol>
+    </aside>
+
+    <main class="content" id="main">
+      <p class="meta"><span class="badge navy">Usage</span> <span class="badge">Core v1.2.0</span></p>
+      <h1>Install, register, and configure Core</h1>
+      <p class="lead">This page is for developers wiring the <strong>free Core</strong> package into a Laravel + Filament host. Admin field-creation steps are in <a href="workflows.html">Workflows</a>. File uploads and Spatie Media are <strong>Pro</strong>.</p>
+
+      <h2 id="requirements">Requirements</h2>
+      <ul>
+        <li>PHP 8.2+</li>
+        <li>Laravel 11+ (<code>illuminate/support</code> and <code>illuminate/database</code> ≥ 11)</li>
+        <li>Filament <code>^3.3|^4.0|^5.0</code> — the host starter uses Filament v5 Schema APIs</li>
+        <li>Optional: <code>bezhansalleh/filament-shield</code> / Spatie Permission for <code>manage_custom_fields</code></li>
+        <li>Pro only: <code>spatie/laravel-medialibrary</code> and <code>filament/spatie-laravel-media-library-plugin</code> for File fields</li>
+      </ul>
+      <p>Composer package name: <code>spiggle/dynamic-fields-core</code>. PHP namespace: <code>Spiggle\DynamicFields</code>. Filament plugin id: <code>spiggle-dynamic-fields</code>. Public source: <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">skillbobby/Spiggle-Dynamic-Fields-Core</a>.</p>
+
+      <h2 id="install">Install Core</h2>
+      <p>Prefer Packagist when the package is listed:</p>
+<pre><code>composer require spiggle/dynamic-fields-core</code></pre>
+      <p>Or a GitHub VCS repository:</p>
+<pre><code>{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core"
+    }
+  ],
+  "require": {
+    "spiggle/dynamic-fields-core": "^1.2"
+  }
+}</code></pre>
+      <p>Path repository (this starter):</p>
+<pre><code>{
+  "repositories": [
+    {
+      "type": "path",
+      "url": "packages/spiggle-dynamic-fields-core",
+      "options": { "symlink": true }
+    }
+  ],
+  "require": {
+    "spiggle/dynamic-fields-core": "@dev"
+  }
+}</code></pre>
+      <p>The service provider and <code>CustomFieldMapper</code> facade alias auto-register via Composer <code>extra.laravel</code>. Download also via <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">GitHub</a> (clone or Releases).</p>
+
+      <h2 id="publish">Publish config and migrate</h2>
+<pre><code>php artisan vendor:publish --tag=dynamic-fields-config
+php artisan vendor:publish --tag=dynamic-fields-migrations
+php artisan migrate</code></pre>
+      <div class="callout note">
+        <strong>Migrations auto-load</strong>
+        Package migrations also load from the service provider. Publishing them is optional. They are guarded with <code>Schema::hasTable</code>, so re-running is safe.
+      </div>
+      <p>Do <strong>not</strong> add a <code>users.custom_fields</code> JSON column. Values belong in <code>custom_field_values</code>. File bytes belong to Spatie Media Library only when <strong>Pro</strong> is installed.</p>
+
+      <h2 id="plugin">Register the Filament plugin</h2>
+      <p>In the host panel provider (starter: <code>app/Providers/Filament/AdminPanelProvider.php</code>):</p>
+<pre><code>use Spiggle\DynamicFields\Filament\DynamicFieldsPlugin;
+
+$panel-&gt;plugin(DynamicFieldsPlugin::make());</code></pre>
+      <p>That registers the <strong>Custom Fields</strong> resource. Navigation group defaults to <strong>System</strong>, icon <code>heroicon-o-adjustments-horizontal</code>, sort <code>90</code> — all overridable in config.</p>
+
+      <h2 id="model">Host model</h2>
+      <p>The starter <code>User</code> already implements this pattern:</p>
+<pre><code>use Spiggle\DynamicFields\Traits\HasCustomFields;
+
+class User extends Authenticatable
+{
+    use HasCustomFields;
+}</code></pre>
+      <ul>
+        <li><code>HasCustomFields</code> is enough for every <strong>Core</strong> type.</li>
+        <li>File fields are <strong>Pro</strong>: they require <code>HasMedia</code> + <code>HasCustomFieldMedia</code> from <code>spiggle/dynamic-fields-pro</code>.</li>
+      </ul>
+      <h3>Mass assignment</h3>
+      <p>Filament nested state uses the key <code>custom_fields</code> (configurable). Add it to fillable so the mutator can queue values:</p>
+<pre><code>#[Fillable(['name', 'email', 'password', 'custom_fields'])]</code></pre>
+      <p>Alternatively, in a page hook: <code>$record-&gt;syncCustomFields($data['custom_fields'] ?? [])</code>.</p>
+
+      <h2 id="resource">Filament resource usage</h2>
+<pre><code>use Filament\Schemas\Components\Section;
+use Spiggle\DynamicFields\Facades\CustomFieldMapper;
+
+Section::make('Custom Profile Data')
+    -&gt;schema(CustomFieldMapper::makeFormFields(User::class));
+
+User::query()-&gt;withCustomFields()
+...CustomFieldMapper::makeTableColumns(User::class)
+
+CustomFieldMapper::makeInfolistEntries(User::class)</code></pre>
+      <p>Always eager-load with <code>withCustomFields()</code> on list queries to avoid N+1. The starter Users table already does this.</p>
+      <p>Mapper methods return an empty array if something throws (missing tables during first boot, etc.), so the host resource still renders.</p>
+
+      <h2 id="shield">Permissions / Shield</h2>
+      <p><code>CustomFieldResource::canAccess()</code> checks:</p>
+      <ol>
+        <li>The user is authenticated on the panel.</li>
+        <li>Spatie permission <code>manage_custom_fields</code> (config: <code>dynamic-fields.permissions.manage</code>), <strong>or</strong> role <code>super_admin</code>.</li>
+        <li>If Shield has not created that permission yet, authenticated panel users keep access so a fresh install is not locked out.</li>
+      </ol>
+      <p>Config also lists <code>view_custom_fields</code>. The resource currently gates on the <strong>manage</strong> permission only.</p>
+      <p>Typical Shield generate (after the plugin is registered):</p>
+<pre><code>php artisan shield:generate --all</code></pre>
+      <p>Then assign <code>manage_custom_fields</code> to the roles that should see <strong>Custom Fields</strong>.</p>
+
+      <h2 id="commands">Artisan commands</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Command</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>php artisan dynamic-fields:seed-user-fields</code></td>
+              <td>Seeds 23 standard User profile fields (identity, contact, work, address, social, preferences). Options: <code>--model=</code>, <code>--fresh</code>.</td>
+            </tr>
+            <tr>
+              <td><code>php artisan dynamic-fields:seed-extended-fields</code></td>
+              <td><strong>Pro.</strong> Seeds Skills (multi-select), Interests (tags), Beta Access (toggle), Profile Documents (file), About (rich textarea), Favorite Team (select).</td>
+            </tr>
+            <tr>
+              <td><code>php artisan dynamic-fields:verify</code></td>
+              <td>Checks tables, mapper mapping, persistence, file media, collapsed repeater labels, and create-page redirect. Option: <code>--model=</code>.</td>
+            </tr>
+            <tr>
+              <td><code>php artisan dynamic-fields:export</code></td>
+              <td>Writes definitions + options to JSON. Options: <code>--model=</code>, <code>--path=</code> (default <code>storage/app/custom-fields-export.json</code>).</td>
+            </tr>
+            <tr>
+              <td><code>php artisan dynamic-fields:import {path}</code></td>
+              <td>Import that JSON. Option: <code>--fresh</code> deletes existing fields for the models in the file first.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>A seeder class <code>Spiggle\DynamicFields\Database\Seeders\StandardUserFieldsSeeder</code> calls the user-fields command.</p>
+      <div class="callout warn">
+        <strong>Login email vs custom email</strong>
+        Standard seeding adds <code>alternate_email</code>, not a competing <code>email</code> custom field, so it does not collide with <code>users.email</code>.
+      </div>
+
+      <h2 id="config">Configuration</h2>
+      <p>Published file: <code>config/dynamic-fields.php</code>.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Default</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>tables.fields / options / values</code></td><td><code>custom_fields</code>, <code>custom_field_options</code>, <code>custom_field_values</code></td><td>Table names</td></tr>
+            <tr><td><code>cache.enabled / ttl / prefix</code></td><td>true, 3600, <code>spiggle_dynamic_fields</code></td><td>Memoize definitions per target model</td></tr>
+            <tr><td><code>append_to_json</code></td><td>true</td><td>Append <code>custom_fields</code> on model JSON/array</td></tr>
+            <tr><td><code>model_discovery.paths</code></td><td><code>['app/Models']</code></td><td>Scan for Target Model dropdown</td></tr>
+            <tr><td><code>model_discovery.exclude</code></td><td>[]</td><td>FQCN list to hide</td></tr>
+            <tr><td><code>navigation.group / icon / sort</code></td><td>System, adjustments-horizontal, 90</td><td>Filament nav</td></tr>
+            <tr><td><code>permissions.manage</code></td><td><code>manage_custom_fields</code></td><td>Resource access</td></tr>
+            <tr><td><code>permissions.view</code></td><td><code>view_custom_fields</code></td><td>Reserved name</td></tr>
+            <tr><td><code>field_types</code></td><td>15 types</td><td>Labels in the type select</td></tr>
+            <tr><td><code>form_state_key</code></td><td><code>custom_fields</code></td><td>Nested Filament state path</td></tr>
+            <tr><td><code>upsell.checkout_url</code></td><td>env <code>LEMON_SQUEEZY_CHECKOUT_URL</code></td><td>Buy Pro URL shown in the Field Manager upsell. Empty = no checkout button (use GitHub Issues on Core).</td></tr>
+            <tr><td><code>tags.colors</code></td><td>Filament theme names</td><td>Used by Pro tags badges; listed in Core config for the upsell UI</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="api">Trait / mapper API</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>customFieldValues()</code></td><td>Morph-many to value rows</td></tr>
+            <tr><td><code>scopeWithCustomFields()</code></td><td>Eager-load values, field, and options</td></tr>
+            <tr><td><code>getCustomFieldValue(string $name)</code></td><td>Cast value; File fields (Pro) return media metadata from Spatie</td></tr>
+            <tr><td><code>setCustomFieldValue(string $name, mixed $value)</code></td><td>Upsert one value; fires <code>CustomFieldValueSaved</code></td></tr>
+            <tr><td><code>syncCustomFields(array $values)</code></td><td>Set many at once</td></tr>
+            <tr><td><code>getCustomFieldsAttribute()</code> / mutator</td><td>JSON append + queue Filament nested state until <code>saved</code></td></tr>
+            <tr><td><code>CustomFieldMapper::makeFormFields($class)</code></td><td>Filament inputs</td></tr>
+            <tr><td><code>CustomFieldMapper::makeTableColumns($class)</code></td><td>Table columns (toggleable, searchable via EAV)</td></tr>
+            <tr><td><code>CustomFieldMapper::makeInfolistEntries($class)</code></td><td>View/infolist entries</td></tr>
+            <tr><td><code>CustomField::cloneDefinition(?$newName)</code></td><td>Copy definition + options</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pager">
+        <a href="index.html">← Overview</a>
+        <a href="architecture.html">Architecture →</a>
+      </div>
+    </main>
+    <p class="footer">Spiggle Dynamic Fields Core v1.2.0 · <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues">Report an issue</a></p>
+  </div>
+</body>
+</html>
