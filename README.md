@@ -65,7 +65,7 @@ Need file uploads, rich text, tags, or conditional logic? Upgrade to **Dynamic F
 
 **[Get Pro license](https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134)**
 
-Business / unlimited-site licensing: **[Get Business license](https://kodesmart.lemonsqueezy.com/checkout)**.
+Business / unlimited-site licensing: **[Get Business license](https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134)**.
 
 ---
 
