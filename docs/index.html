@@ -29,7 +29,7 @@
       <div class="container">
         <div class="hero-kicker">Laravel-13 · Filament 5</div>
         <h1>Custom fields without migrations</h1>
-        <p class="hero-lead">Define text, select, date, and toggle fields in Filament. Attach them to any Eloquent model. Values live in a clean EAV store — no JSON column required.</p>
+        <p class="hero-lead">Add fields from the Filament panel — no code, no redeploy. Values live in indexed EAV tables and appear on forms and table columns automatically.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">Get Community Edition</a>
           <a class="btn btn-accent" href="https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134">Buy Pro license</a>
@@ -52,16 +52,16 @@
         <p class="section-desc">Core covers everyday profile and metadata fields. Pro unlocks uploads, tags, and advanced types.</p>
         <div class="features-grid">
           <article class="feature-card">
-            <h3>Field Manager UI</h3>
-            <p>Create fields, options, validation, and hints from the panel — no code deploy.</p>
+            <h3>No code required</h3>
+            <p>Admins create fields, options, required toggles, and Laravel validation rules in the panel — no PHP edits or deploy.</p>
           </article>
           <article class="feature-card">
-            <h3>Drop-in mapper</h3>
-            <p><code>HasCustomFields</code> + <code>CustomFieldMapper</code> wire forms, tables, and infolists.</p>
+            <h3>Table columns included</h3>
+            <p>New fields show on Filament resource tables automatically. Toggle column visibility — no custom column code.</p>
           </article>
           <article class="feature-card">
-            <h3>Normalized EAV</h3>
-            <p>Definitions, options, and values in proper tables — queryable and cache-friendly.</p>
+            <h3>Indexed &amp; searchable</h3>
+            <p>Normalized EAV tables with database indexes — query and filter values without a JSON blob on every row.</p>
           </article>
           <article class="feature-card">
             <h3>12 Core types</h3>
@@ -99,33 +99,6 @@
       </div>
     </section>
 
-    <section style="padding-top:0">
-      <div class="container">
-        <div class="section-label">Screenshots</div>
-        <h2 class="section-title">See the panel</h2>
-        <div class="gallery">
-          <figure class="shot">
-            <button type="button" class="shot-zoom" data-lightbox="screenshots/create-custom-field.png" data-caption="Create fields with type, validation, and options" aria-label="Zoom: Create fields with type, validation, and options">
-              <img src="screenshots/create-custom-field.png" alt="Field type picker when creating a custom field" loading="lazy">
-            </button>
-            <figcaption>Create fields with type, validation, and options</figcaption>
-          </figure>
-          <figure class="shot">
-            <button type="button" class="shot-zoom" data-lightbox="screenshots/field-options.jpg" data-caption="Drag-and-drop options for select fields" aria-label="Zoom: Drag-and-drop options for select fields">
-              <img src="screenshots/field-options.jpg" alt="Select options repeater" loading="lazy">
-            </button>
-            <figcaption>Drag-and-drop options for select fields</figcaption>
-          </figure>
-          <figure class="shot">
-            <button type="button" class="shot-zoom" data-lightbox="screenshots/users-table.jpg" data-caption="Custom columns on your resources" aria-label="Zoom: Custom columns on your resources">
-              <img src="screenshots/users-table.jpg" alt="Users table with custom columns" loading="lazy">
-            </button>
-            <figcaption>Custom columns on your resources</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
     <section id="demo">
       <div class="container">
         <div class="section-label">Demo</div>
@@ -149,41 +122,10 @@
       <div class="container">
         <div class="pricing-head">
           <div class="section-label">Pricing</div>
-          <h2 class="section-title">Community is free. Paid tiers unlock Pro features.</h2>
-          <p class="section-desc">Same premium field types on Solo, Pro, and Business — only site limits and support differ.</p>
+          <h2 class="section-title">Pro licenses for premium field types</h2>
+          <p class="section-desc">Community Edition is free on <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">GitHub</a>. Paid tiers unlock file uploads, tags, multi-select, and more — only site limits and support differ.</p>
         </div>
         <div class="pricing-grid">
-          <article class="plan plan-community">
-            <div class="plan-tag">Open source</div>
-            <h3>Community</h3>
-            <div class="plan-price">Free</div>
-            <p class="plan-note">MIT license · public GitHub repo</p>
-            <div class="plan-types">
-              <p class="plan-types-label">12 Core field types</p>
-              <div class="type-badges type-badges-compact" aria-label="Core field types">
-                <span class="type-badge type-input">text</span>
-                <span class="type-badge type-input">email</span>
-                <span class="type-badge type-input">phone</span>
-                <span class="type-badge type-input">url</span>
-                <span class="type-badge type-input">number</span>
-                <span class="type-badge type-input">textarea</span>
-                <span class="type-badge type-choice">select</span>
-                <span class="type-badge type-choice">radio</span>
-                <span class="type-badge type-date">date</span>
-                <span class="type-badge type-date">datetime</span>
-                <span class="type-badge type-bool">boolean</span>
-                <span class="type-badge type-bool">toggle</span>
-              </div>
-            </div>
-            <ul>
-              <li>Filament Field Manager</li>
-              <li><code>HasCustomFields</code> trait</li>
-              <li>Export / import / seed commands</li>
-              <li>GitHub Issues support</li>
-            </ul>
-            <a class="btn btn-outline" href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">Get Community Edition</a>
-          </article>
-
           <article class="plan">
             <div class="plan-tag">1 production site</div>
             <h3>Solo</h3>
@@ -242,11 +184,11 @@
         <div class="faq">
           <details open>
             <summary>Do I need to write code for every new field?</summary>
-            <p>No. Your team defines fields in the Filament panel — pick a model, set the label, choose a type, save. The form, table column, and storage are handled for you. No PHP edits, no migration per field, no redeploy.</p>
+            <p>No. Your team defines fields in the Filament panel — pick a model, set the label, choose a type, add validation rules, save. Forms, table columns, and storage are handled for you. No PHP, no migration per field, no redeploy.</p>
           </details>
           <details>
             <summary>Does marketing need a developer when they want a new field?</summary>
-            <p>Not for Core field types. An admin can add a Department dropdown or Phone field in minutes under <strong>System → Custom Fields</strong>. It shows up on create and edit forms right away.</p>
+            <p>Not for Core field types. An admin can add a Department dropdown with options, mark it required, set <code>max:255</code> or email rules, and enable the table column — all under <strong>System → Custom Fields</strong>.</p>
           </details>
           <details>
             <summary>How fast can I ship a new profile field?</summary>
@@ -262,7 +204,7 @@
           </details>
           <details>
             <summary>Will custom fields slow down my app?</summary>
-            <p>Definitions are cached and values live in normalized EAV tables — not a bloated JSON column on every row. Built for admin panels and typical CRUD workloads, not millions of writes per second.</p>
+            <p>Definitions are cached and values live in indexed EAV tables — not a bloated JSON column. Built for admin panels, list filtering, and typical CRUD workloads.</p>
           </details>
           <details>
             <summary>How does licensing work?</summary>
@@ -304,57 +246,8 @@
     </div>
   </footer>
 
-  <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Screenshot preview">
-    <button type="button" class="lightbox-backdrop" aria-label="Close preview"></button>
-    <div class="lightbox-panel">
-      <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
-      <img class="lightbox-img" src="" alt="">
-      <p class="lightbox-caption"></p>
-    </div>
-  </div>
-
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
-
-    (function () {
-      var box = document.getElementById('lightbox');
-      if (!box) return;
-      var img = box.querySelector('.lightbox-img');
-      var caption = box.querySelector('.lightbox-caption');
-      var lastFocus = null;
-
-      function openLightbox(src, text, alt) {
-        lastFocus = document.activeElement;
-        img.src = src;
-        img.alt = alt || text || 'Screenshot preview';
-        caption.textContent = text || '';
-        box.hidden = false;
-        box.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        box.querySelector('.lightbox-close').focus();
-      }
-
-      function closeLightbox() {
-        box.hidden = true;
-        box.setAttribute('aria-hidden', 'true');
-        img.src = '';
-        document.body.style.overflow = '';
-        if (lastFocus) lastFocus.focus();
-      }
-
-      document.querySelectorAll('.shot-zoom').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          openLightbox(btn.dataset.lightbox, btn.dataset.caption, btn.getAttribute('aria-label'));
-        });
-      });
-
-      box.querySelector('.lightbox-backdrop').addEventListener('click', closeLightbox);
-      box.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-
-      document.addEventListener('keydown', function (e) {
-        if (!box.hidden && e.key === 'Escape') closeLightbox();
-      });
-    })();
   </script>
 </body>
 </html>
