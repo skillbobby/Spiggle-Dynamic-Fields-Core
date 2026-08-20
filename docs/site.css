@@ -211,82 +211,132 @@ section { padding: 72px 0; }
   font-size: 0.95rem;
 }
 
-/* Field type badges */
+/* Field types showcase */
 .field-types-section {
   padding-top: 0;
   padding-bottom: 56px;
+}
+.field-types-container {
+  width: calc(100% - 32px);
+  max-width: 1320px;
 }
 .section-desc-center {
   text-align: center;
   margin-inline: auto;
 }
-.type-badges {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 14px;
-  max-width: 820px;
-  margin: 0 auto 28px;
+.field-showcase {
+  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 26px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  box-shadow: 0 18px 50px rgba(17, 24, 39, 0.07);
 }
-.type-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 14px 26px;
-  border-radius: 999px;
-  font-size: 1.05rem;
+.field-panel {
+  background: #fff;
+  border: 1px solid #e6ebf1;
+  border-radius: 16px;
+  padding: 16px;
+}
+.field-panel h3 {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+.mock-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.mock-row span,
+.mock-choice-group p,
+.mock-toggle-row span {
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1px solid transparent;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  color: #667085;
 }
-.type-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.08);
-}
-.type-input {
-  background: #eff6ff;
-  color: #1d4ed8;
-  border-color: #bfdbfe;
-}
-.type-choice {
-  background: #fff7ed;
-  color: #c2410c;
-  border-color: #fed7aa;
-}
-.type-date {
-  background: #ecfdf5;
-  color: #047857;
-  border-color: #a7f3d0;
-}
-.type-bool {
-  background: #f5f3ff;
-  color: #6d28d9;
-  border-color: #ddd6fe;
-}
-.type-legend {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+.mock-row input,
+.mock-row textarea,
+.mock-row select {
+  width: 100%;
+  border: 1px solid #d0d8e2;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 9px 11px;
+  font: inherit;
   font-size: 13px;
-  font-weight: 500;
-  color: var(--muted);
+  color: #1f2937;
 }
-.type-legend span {
-  display: inline-flex;
+.mock-row textarea {
+  resize: none;
+}
+.mock-row input::placeholder,
+.mock-row textarea::placeholder {
+  color: #98a2b3;
+}
+.mock-row-invalid input {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+}
+.mock-row small {
+  font-size: 11px;
+  color: #b45309;
+}
+.mock-choice-group {
+  border: 1px solid #dbe3ec;
+  border-radius: 12px;
+  background: #fbfcfe;
+  padding: 10px 12px;
+}
+.mock-choice-group p {
+  margin: 0 0 8px;
+}
+.mock-choice-group label {
+  display: flex;
   align-items: center;
   gap: 8px;
+  margin: 7px 0;
+  font-size: 13px;
+  color: #334155;
 }
-.legend-dot {
-  width: 10px;
-  height: 10px;
+.mock-choice-group input {
+  accent-color: #f59e0b;
+}
+.mock-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #dbe3ec;
+  background: #fbfcfe;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+.mock-toggle-row button {
+  width: 42px;
+  height: 24px;
+  border: 0;
+  border-radius: 999px;
+  background: #d1d5db;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.mock-toggle-row button i {
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  display: inline-block;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
 }
-.legend-input { background: #3b82f6; }
-.legend-choice { background: var(--accent); }
-.legend-date { background: #10b981; }
-.legend-bool { background: #8b5cf6; }
+.mock-toggle-row button.is-on {
+  background: #f59e0b;
+  justify-content: flex-end;
+}
 
 /* Video + demo row */
 .split {
@@ -500,7 +550,12 @@ section { padding: 72px 0; }
   .pricing-grid,
   .plugins,
   .split { grid-template-columns: 1fr; }
+  .field-showcase { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nav .hide-mobile { display: none; }
   section { padding: 56px 0; }
   .hero { padding-top: 48px; }
+}
+
+@media (max-width: 640px) {
+  .field-showcase { grid-template-columns: 1fr; padding: 16px; }
 }

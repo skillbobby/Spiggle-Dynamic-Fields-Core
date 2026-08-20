@@ -72,29 +72,87 @@
     </section>
 
     <section id="field-types" class="field-types-section">
-      <div class="container">
+      <div class="container field-types-container">
         <div class="section-label">Field types</div>
         <h2 class="section-title">12 Core types, ready to use</h2>
         <p class="section-desc section-desc-center">Every type maps to native Filament inputs — no Pro license required.</p>
-        <div class="type-badges" role="list" aria-label="Core field types">
-          <span class="type-badge type-input" role="listitem">text</span>
-          <span class="type-badge type-input" role="listitem">email</span>
-          <span class="type-badge type-input" role="listitem">phone</span>
-          <span class="type-badge type-input" role="listitem">url</span>
-          <span class="type-badge type-input" role="listitem">number</span>
-          <span class="type-badge type-input" role="listitem">textarea</span>
-          <span class="type-badge type-choice" role="listitem">select</span>
-          <span class="type-badge type-choice" role="listitem">radio</span>
-          <span class="type-badge type-date" role="listitem">date</span>
-          <span class="type-badge type-date" role="listitem">datetime</span>
-          <span class="type-badge type-bool" role="listitem">boolean</span>
-          <span class="type-badge type-bool" role="listitem">toggle</span>
-        </div>
-        <div class="type-legend">
-          <span><i class="legend-dot legend-input"></i> Input</span>
-          <span><i class="legend-dot legend-choice"></i> Choice</span>
-          <span><i class="legend-dot legend-date"></i> Date &amp; time</span>
-          <span><i class="legend-dot legend-bool"></i> Boolean</span>
+        <div class="field-showcase" aria-label="Core field types visual showcase">
+          <article class="field-panel">
+            <h3>Inputs</h3>
+            <label class="mock-row">
+              <span>Text</span>
+              <input type="text" placeholder="Enter headline">
+            </label>
+            <label class="mock-row">
+              <span>Email</span>
+              <input type="email" placeholder="you@example.com">
+            </label>
+            <label class="mock-row">
+              <span>Phone</span>
+              <input type="tel" placeholder="+1 (555) 123-4567">
+            </label>
+            <label class="mock-row">
+              <span>URL</span>
+              <input type="url" placeholder="https://example.com">
+            </label>
+            <label class="mock-row mock-row-invalid">
+              <span>Number</span>
+              <input type="number" placeholder="0">
+              <small>Must be greater than 0</small>
+            </label>
+          </article>
+
+          <article class="field-panel">
+            <h3>Textarea</h3>
+            <label class="mock-row">
+              <span>Description</span>
+              <textarea rows="6" placeholder="Write a short summary..."></textarea>
+            </label>
+            <label class="mock-row">
+              <span>Notes</span>
+              <textarea rows="3" placeholder="Optional internal note"></textarea>
+            </label>
+          </article>
+
+          <article class="field-panel">
+            <h3>Choices</h3>
+            <label class="mock-row">
+              <span>Select</span>
+              <select>
+                <option>Choose status</option>
+              </select>
+            </label>
+            <div class="mock-choice-group" role="group" aria-label="Radio examples">
+              <p>Radio</p>
+              <label><input type="radio" name="priority" checked> <span>High priority</span></label>
+              <label><input type="radio" name="priority"> <span>Normal</span></label>
+              <label><input type="radio" name="priority"> <span>Low</span></label>
+            </div>
+          </article>
+
+          <article class="field-panel">
+            <h3>Date and Boolean</h3>
+            <label class="mock-row">
+              <span>Date</span>
+              <input type="date">
+            </label>
+            <label class="mock-row">
+              <span>DateTime</span>
+              <input type="datetime-local">
+            </label>
+            <div class="mock-toggle-row">
+              <span>Boolean</span>
+              <button type="button" aria-label="Boolean toggle preview">
+                <i></i>
+              </button>
+            </div>
+            <div class="mock-toggle-row">
+              <span>Toggle</span>
+              <button type="button" class="is-on" aria-label="Toggle preview enabled">
+                <i></i>
+              </button>
+            </div>
+          </article>
         </div>
       </div>
     </section>
