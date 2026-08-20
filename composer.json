@@ -8,7 +8,7 @@
     "support": {
         "issues": "https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues",
         "source": "https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core",
-        "docs": "https://skillbobby.github.io/Spiggle-Plugins/dynamic-fields/"
+        "docs": "https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/"
     },
     "keywords": [
         "laravel",

@@ -18,7 +18,7 @@ Create and manage fields from the admin panel. Values live in indexed EAV tables
 | **Package** | `spiggle/dynamic-fields-core` v1.2.0 |
 | **License** | MIT (Community Edition) |
 | **GitHub** | [skillbobby/Spiggle-Dynamic-Fields-Core](https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core) |
-| **Docs** | [Product site & guide](https://skillbobby.github.io/Spiggle-Plugins/dynamic-fields/) |
+| **Docs** | [Product site & guide](https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/) |
 
 ---
 
@@ -63,7 +63,7 @@ Need file uploads, rich text, tags, or conditional logic? Upgrade to **Dynamic F
 | **Clone** | Duplicate field definitions in one click |
 | **License management** | Activate and manage your Pro license in Filament |
 
-**[Get Pro license →](https://skillbobby.github.io/Spiggle-Plugins/dynamic-fields/#pricing)**
+**[Get Pro license →](https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/#pricing)**
 
 Business / unlimited-site licensing: [open a GitHub Issue](https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues/new?title=Business%20license%20inquiry).
 
@@ -174,7 +174,7 @@ php artisan dynamic-fields:seed-user-fields
 
 ## Related
 
-- **[Full documentation](https://skillbobby.github.io/Spiggle-Plugins/dynamic-fields/guide/)** — architecture, workflows, configuration
+- **[Full documentation](https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/guide/)** — architecture, workflows, configuration
 - **[Live demo](https://skillbobby.com/larafill/public/admin/login)** — `demo@user.net` / `password`
 - **[Spiggle Form Builder](https://skillbobby.github.io/Spiggle-Plugins/form-builder/)** — public forms that reuse the same field types
 
