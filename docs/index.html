@@ -105,15 +105,21 @@
         <h2 class="section-title">See the panel</h2>
         <div class="gallery">
           <figure class="shot">
-            <img src="screenshots/create-custom-field.png" alt="Field type picker when creating a custom field" loading="lazy">
+            <button type="button" class="shot-zoom" data-lightbox="screenshots/create-custom-field.png" data-caption="Create fields with type, validation, and options" aria-label="Zoom: Create fields with type, validation, and options">
+              <img src="screenshots/create-custom-field.png" alt="Field type picker when creating a custom field" loading="lazy">
+            </button>
             <figcaption>Create fields with type, validation, and options</figcaption>
           </figure>
           <figure class="shot">
-            <img src="screenshots/field-options.jpg" alt="Select options repeater" loading="lazy">
+            <button type="button" class="shot-zoom" data-lightbox="screenshots/field-options.jpg" data-caption="Drag-and-drop options for select fields" aria-label="Zoom: Drag-and-drop options for select fields">
+              <img src="screenshots/field-options.jpg" alt="Select options repeater" loading="lazy">
+            </button>
             <figcaption>Drag-and-drop options for select fields</figcaption>
           </figure>
           <figure class="shot">
-            <img src="screenshots/users-table.jpg" alt="Users table with custom columns" loading="lazy">
+            <button type="button" class="shot-zoom" data-lightbox="screenshots/users-table.jpg" data-caption="Custom columns on your resources" aria-label="Zoom: Custom columns on your resources">
+              <img src="screenshots/users-table.jpg" alt="Users table with custom columns" loading="lazy">
+            </button>
             <figcaption>Custom columns on your resources</figcaption>
           </figure>
         </div>
@@ -182,7 +188,7 @@
             <div class="plan-tag">1 production site</div>
             <h3>Solo</h3>
             <div class="plan-price">$29.99 <small>/year</small></div>
-            <p class="plan-note">Pro drivers · 1 year of updates</p>
+            <p class="plan-note">Pro license · 1 year of updates</p>
             <ul>
               <li>Everything in Community</li>
               <li>File uploads (Spatie Media)</li>
@@ -199,7 +205,7 @@
             <div class="plan-tag">Up to 5 sites</div>
             <h3>Pro</h3>
             <div class="plan-price">$89.99 <small>/year</small></div>
-            <p class="plan-note">Pro drivers · 1 year of updates</p>
+            <p class="plan-note">Pro license · 1 year of updates</p>
             <ul>
               <li>Everything in Community</li>
               <li>File uploads (Spatie Media)</li>
@@ -215,7 +221,7 @@
             <div class="plan-tag">Unlimited sites</div>
             <h3>Business</h3>
             <div class="plan-price">$199.99 <small>/year</small></div>
-            <p class="plan-note">Pro drivers · priority support</p>
+            <p class="plan-note">Pro license · priority support</p>
             <ul>
               <li>Everything in Pro</li>
               <li>Unlimited production sites</li>
@@ -234,25 +240,33 @@
         <div class="section-label" style="text-align:center">FAQ</div>
         <h2 class="section-title" style="text-align:center;margin-bottom:32px">Quick answers</h2>
         <div class="faq">
-          <details>
-            <summary>What's in Core vs Pro?</summary>
-            <p>Core is free and MIT-licensed: standard field types, Field Manager, and the mapper. Pro adds file uploads, tags, multi-select, rich text, visibility rules, and clone — delivered as a private licensed package.</p>
+          <details open>
+            <summary>Do I need to write code for every new field?</summary>
+            <p>No. Your team defines fields in the Filament panel — pick a model, set the label, choose a type, save. The form, table column, and storage are handled for you. No PHP edits, no migration per field, no redeploy.</p>
           </details>
           <details>
-            <summary>Do I need migrations for each field?</summary>
-            <p>No. Field definitions and values use the package EAV tables. Create a field in the panel and it appears on your resource.</p>
+            <summary>Does marketing need a developer when they want a new field?</summary>
+            <p>Not for Core field types. An admin can add a Department dropdown or Phone field in minutes under <strong>System → Custom Fields</strong>. It shows up on create and edit forms right away.</p>
+          </details>
+          <details>
+            <summary>How fast can I ship a new profile field?</summary>
+            <p>Usually minutes: create the field, assign options if needed, refresh the user form. Values save with the record automatically. Watch the demo — we add a Department select live in the panel.</p>
+          </details>
+          <details>
+            <summary>Can I attach fields to Users, Products, or other models?</summary>
+            <p>Yes — any Eloquent model. Add the <code>HasCustomFields</code> trait once, wire the mapper in your Filament resource, then create as many fields as you need from the UI.</p>
+          </details>
+          <details>
+            <summary>What's the difference between Core and Pro?</summary>
+            <p><strong>Core is free</strong> and covers everyday fields: text, select, dates, toggles, and more. <strong>Pro</strong> unlocks file uploads, tags, multi-select, rich text, conditional visibility, and clone — ideal when you need more than standard attributes. Same no-code workflow; Pro just opens more types.</p>
+          </details>
+          <details>
+            <summary>Will custom fields slow down my app?</summary>
+            <p>Definitions are cached and values live in normalized EAV tables — not a bloated JSON column on every row. Built for admin panels and typical CRUD workloads, not millions of writes per second.</p>
           </details>
           <details>
             <summary>How does licensing work?</summary>
-            <p>After purchase you receive a license key. Activate it in Filament under <strong>Fields License</strong>. Solo allows 1 production site, Pro up to 5, Business is unlimited with priority support.</p>
-          </details>
-          <details>
-            <summary>Which Filament versions are supported?</summary>
-            <p>Filament 3, 4, and 5. The demo and docs target Filament 5 Schema API.</p>
-          </details>
-          <details>
-            <summary>Where do I report bugs?</summary>
-            <p>Open a <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues">GitHub Issue</a> on the public Core repository.</p>
+            <p>Core is MIT and free forever on GitHub. Paid tiers (Solo, Pro, Business) include a license key you activate in Filament. Solo = 1 site, Pro = up to 5, Business = unlimited with priority support.</p>
           </details>
         </div>
       </div>
@@ -270,7 +284,7 @@
           </article>
           <article class="plugin-card">
             <h3>Dynamic Fields Pro</h3>
-            <p>Premium field drivers, Lemon Squeezy licensing, and Spatie file collections. Installs alongside Core.</p>
+            <p>Licensed Pro features, Lemon Squeezy activation, and Spatie file collections. Installs alongside Core.</p>
             <a class="btn btn-accent" href="https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134">Get Pro license →</a>
           </article>
         </div>
@@ -289,6 +303,58 @@
       </nav>
     </div>
   </footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+  <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Screenshot preview">
+    <button type="button" class="lightbox-backdrop" aria-label="Close preview"></button>
+    <div class="lightbox-panel">
+      <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
+      <img class="lightbox-img" src="" alt="">
+      <p class="lightbox-caption"></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    (function () {
+      var box = document.getElementById('lightbox');
+      if (!box) return;
+      var img = box.querySelector('.lightbox-img');
+      var caption = box.querySelector('.lightbox-caption');
+      var lastFocus = null;
+
+      function openLightbox(src, text, alt) {
+        lastFocus = document.activeElement;
+        img.src = src;
+        img.alt = alt || text || 'Screenshot preview';
+        caption.textContent = text || '';
+        box.hidden = false;
+        box.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        box.querySelector('.lightbox-close').focus();
+      }
+
+      function closeLightbox() {
+        box.hidden = true;
+        box.setAttribute('aria-hidden', 'true');
+        img.src = '';
+        document.body.style.overflow = '';
+        if (lastFocus) lastFocus.focus();
+      }
+
+      document.querySelectorAll('.shot-zoom').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          openLightbox(btn.dataset.lightbox, btn.dataset.caption, btn.getAttribute('aria-label'));
+        });
+      });
+
+      box.querySelector('.lightbox-backdrop').addEventListener('click', closeLightbox);
+      box.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+
+      document.addEventListener('keydown', function (e) {
+        if (!box.hidden && e.key === 'Escape') closeLightbox();
+      });
+    })();
+  </script>
 </body>
 </html>
