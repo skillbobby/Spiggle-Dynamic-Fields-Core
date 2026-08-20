@@ -52,20 +52,42 @@
         <p class="section-desc">Start building for free with our open-source Community Edition on <a href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">GitHub</a>. Need more power? Upgrade to a premium tier to unlock advanced field types like file uploads, colored tags, searchable multi-selects, and conditional logic.</p>
         <div class="features-grid">
           <article class="feature-card">
+            <div class="feature-visual flow-visual" aria-hidden="true">
+              <div class="flow-step">Field Manager</div>
+              <svg viewBox="0 0 40 14" role="img" aria-label="Flow arrow">
+                <path d="M2 7h30"></path>
+                <path d="M26 2l6 5-6 5"></path>
+              </svg>
+              <div class="flow-step flow-step-accent">Save</div>
+              <svg viewBox="0 0 40 14" role="img" aria-label="Flow arrow">
+                <path d="M2 7h30"></path>
+                <path d="M26 2l6 5-6 5"></path>
+              </svg>
+              <div class="flow-step">Live in form</div>
+            </div>
             <h3>No code required</h3>
-            <p>Admins create fields, options, required toggles, and Laravel validation rules in the panel — no PHP edits or deploy.</p>
+            <p>Create fields, rules, and options in the panel, hit save, and they instantly appear in your forms.</p>
           </article>
           <article class="feature-card">
+            <div class="feature-visual table-visual" aria-hidden="true">
+              <div class="table-header">
+                <span>Name</span>
+                <span>Status</span>
+                <span class="col-highlight">Custom: Tier</span>
+              </div>
+              <div class="table-row">
+                <span>Acme Inc</span>
+                <span>Active</span>
+                <span class="cell-badge">Gold</span>
+              </div>
+              <div class="table-row">
+                <span>Nova Shop</span>
+                <span>Pending</span>
+                <span class="cell-badge">Silver</span>
+              </div>
+            </div>
             <h3>Table columns included</h3>
-            <p>New fields show on Filament resource tables automatically. Toggle column visibility — no custom column code.</p>
-          </article>
-          <article class="feature-card">
-            <h3>Indexed &amp; searchable</h3>
-            <p>Normalized EAV tables with database indexes — query and filter values without a JSON blob on every row.</p>
-          </article>
-          <article class="feature-card">
-            <h3>12 Core types</h3>
-            <p>Text, select, date, toggle, and more — all included free. See the full list below.</p>
+            <p>Every saved field is ready to show in Filament tables, including visibility toggles for your team.</p>
           </article>
         </div>
       </div>
@@ -79,21 +101,24 @@
         <div class="field-showcase" aria-label="Core field types visual showcase">
           <article class="field-panel">
             <h3>Inputs</h3>
-            <label class="mock-row">
+            <label class="mock-row mock-row-neutral">
               <span>Text</span>
               <input type="text" placeholder="Enter headline">
             </label>
-            <label class="mock-row">
+            <label class="mock-row mock-row-focus">
               <span>Email</span>
               <input type="email" placeholder="you@example.com">
+              <small class="state-note">Focused field state</small>
             </label>
-            <label class="mock-row">
+            <label class="mock-row mock-row-disabled">
               <span>Phone</span>
-              <input type="tel" placeholder="+1 (555) 123-4567">
+              <input type="tel" placeholder="+1 (555) 123-4567" disabled>
+              <small class="state-note">Disabled until email is verified</small>
             </label>
-            <label class="mock-row">
+            <label class="mock-row mock-row-success">
               <span>URL</span>
               <input type="url" placeholder="https://example.com">
+              <small class="state-note">Looks good and reachable</small>
             </label>
             <label class="mock-row mock-row-invalid">
               <span>Number</span>
@@ -104,19 +129,21 @@
 
           <article class="field-panel">
             <h3>Textarea</h3>
-            <label class="mock-row">
+            <label class="mock-row mock-row-focus">
               <span>Description</span>
               <textarea rows="6" placeholder="Write a short summary..."></textarea>
+              <small class="state-note">Active editing area</small>
             </label>
-            <label class="mock-row">
+            <label class="mock-row mock-row-success">
               <span>Notes</span>
               <textarea rows="3" placeholder="Optional internal note"></textarea>
+              <small class="state-note">Saved as helper note</small>
             </label>
           </article>
 
           <article class="field-panel">
             <h3>Choices</h3>
-            <label class="mock-row">
+            <label class="mock-row mock-row-neutral">
               <span>Select</span>
               <select>
                 <option>Choose status</option>
@@ -161,18 +188,30 @@
       <div class="container">
         <div class="section-label">Demo</div>
         <h2 class="section-title">Try it live</h2>
-        <aside class="demo-box demo-box-centered">
-          <h3>Hosted demo</h3>
-          <p>Log into a Filament panel with Dynamic Fields already installed.</p>
-          <div class="demo-creds">
-            <strong>URL</strong><br>
-            <a href="https://skillbobby.com/larafill/public/admin/login" target="_blank" rel="noopener">skillbobby.com/larafill/public/admin/login</a><br><br>
-            <strong>Email</strong> demo@user.net<br>
-            <strong>Password</strong> password
-          </div>
-          <p class="demo-hint">Under <strong>System → Custom Fields</strong> to manage definitions.</p>
-          <a class="btn btn-primary" href="https://skillbobby.com/larafill/public/admin/login" target="_blank" rel="noopener">Open demo</a>
-        </aside>
+        <div class="demo-layout">
+          <aside class="demo-box">
+            <h3>Hosted demo</h3>
+            <p>Log into a Filament panel with Dynamic Fields already installed.</p>
+            <div class="demo-creds">
+              <strong>URL</strong><br>
+              <a href="https://skillbobby.com/larafill/public/admin/login" target="_blank" rel="noopener">skillbobby.com/larafill/public/admin/login</a><br><br>
+              <strong>Email</strong> demo@user.net<br>
+              <strong>Password</strong> password
+            </div>
+            <p class="demo-hint">Under <strong>System → Custom Fields</strong> to manage definitions.</p>
+            <a class="btn btn-primary" href="https://skillbobby.com/larafill/public/admin/login" target="_blank" rel="noopener">Open demo</a>
+          </aside>
+
+          <aside class="demo-box demo-steps">
+            <h3>Quick demo steps</h3>
+            <ol>
+              <li>Open demo and sign in.</li>
+              <li>Go to System → Custom Fields.</li>
+              <li>Click New Custom Field, choose User, set Label + Type.</li>
+              <li>Save, then open Users to see/select the new field.</li>
+            </ol>
+          </aside>
+        </div>
       </div>
     </section>
 
