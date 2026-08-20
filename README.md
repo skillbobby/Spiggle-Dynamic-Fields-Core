@@ -7,7 +7,7 @@ Namespace: `Spiggle\DynamicFields`
 License: MIT  
 
 **GitHub (public):** https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core  
-**Product site:** https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/
+**Product site:** https://skillbobby.github.io/Spiggle-Plugins/dynamic-fields/
 
 This is the **free Core** package. It is not Dynamic Fields Pro. Pro is a separate licensed add-on sold to license holders; Pro source is not in this repository.
 
@@ -29,7 +29,7 @@ Pro is **$29.99** (limited-time deal, normally **$49.99**). It is not published 
 - `file`, `tags`, `multi_select` form drivers
 - RichEditor, `visible_when`, clone action, colored badge HTML
 
-Get Pro from the [product site](https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/#pricing) or [Lemon Squeezy checkout](https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134). Business licenses: open a [GitHub Issue](https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues/new?title=Business%20license%20inquiry).
+Get Pro from the [product site](https://skillbobby.github.io/Spiggle-Plugins/dynamic-fields/#pricing) or [Lemon Squeezy checkout](https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134). Business licenses: open a [GitHub Issue](https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues/new?title=Business%20license%20inquiry).
 
 ## Install
 
@@ -79,4 +79,4 @@ use Spiggle\DynamicFields\Traits\HasCustomFields;
 $panel->plugin(DynamicFieldsPlugin::make());
 ```
 
-Docs: [guide/](https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/guide/). Related: [Spiggle Form Builder](https://skillbobby.github.io/Spiggle-Plugins/form-builder/).
+Docs: [guide/](https://skillbobby.github.io/Spiggle-Plugins/dynamic-fields/guide/). Related: [Spiggle Form Builder](https://skillbobby.github.io/Spiggle-Plugins/form-builder/).

@@ -9,6 +9,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="site.css">
+  <script>
+    (function () {
+      const oldSegment = '/Spiggle-Dynamic-Fields-Core/';
+      const newBase = 'https://skillbobby.github.io/Spiggle-Plugins/dynamic-fields/';
+      if (!window.location.pathname.includes(oldSegment)) {
+        return;
+      }
+      const suffix = window.location.pathname.split(oldSegment)[1] || '';
+      const target = newBase + suffix + window.location.search + window.location.hash;
+      if (window.location.href !== target) {
+        window.location.replace(target);
+      }
+    })();
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -95,9 +109,11 @@
 
     <section id="field-types" class="field-types-section">
       <div class="container field-types-container">
-        <div class="section-label">Field types</div>
-        <h2 class="section-title">12 Core types, ready to use</h2>
-        <p class="section-desc section-desc-center">Every type maps to native Filament inputs — no Pro license required.</p>
+        <div class="field-types-heading">
+          <div class="section-label">Field types</div>
+          <h2 class="section-title">12 Core types, ready to use</h2>
+          <p class="section-desc">Every type maps to native Filament inputs — no Pro license required.</p>
+        </div>
         <div class="field-showcase" aria-label="Core field types visual showcase">
           <article class="field-panel">
             <h3>Inputs</h3>
