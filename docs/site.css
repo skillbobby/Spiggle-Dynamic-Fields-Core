@@ -297,13 +297,12 @@ section { padding: 72px 0; }
   width: calc(100% - 32px);
   max-width: 1320px;
 }
-.field-types-section .section-label,
-.field-types-section .section-title {
-  text-align: center;
+.field-types-heading {
+  padding-inline: 26px;
+  margin-bottom: 20px;
 }
-.section-desc-center {
-  text-align: center;
-  margin-inline: auto;
+.field-types-heading .section-desc {
+  margin-bottom: 0;
 }
 .field-showcase {
   background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
@@ -711,5 +710,8 @@ section { padding: 72px 0; }
 }
 
 @media (max-width: 640px) {
+  .field-types-heading {
+    padding-inline: 16px;
+  }
   .field-showcase { grid-template-columns: 1fr; padding: 16px; }
 }
