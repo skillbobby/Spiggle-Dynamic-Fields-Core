@@ -63,9 +63,9 @@ Need file uploads, rich text, tags, or conditional logic? Upgrade to **Dynamic F
 | **Clone** | Duplicate field definitions in one click |
 | **License management** | Activate and manage your Pro license in Filament |
 
-**[Get Pro license →](https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/#pricing)**
+**[Get Pro license](https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134)**
 
-Business / unlimited-site licensing: [open a GitHub Issue](https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues/new?title=Business%20license%20inquiry).
+Business / unlimited-site licensing: **[Get Business license](https://kodesmart.lemonsqueezy.com/checkout)**.
 
 ---
 
