@@ -11,7 +11,7 @@ Create and manage fields from the admin panel. Values live in indexed EAV tables
 
 ![Create a custom field in the Filament Field Manager](docs/screenshots/create-custom-field.png)
 
-**[Watch the demo on YouTube →](https://youtu.be/c5VcwW3_Vfk)**
+**[Watch the demo on YouTube →](https://youtu.be/t2MORdJdcBg)**
 
 | | |
 |---|---|
