@@ -297,6 +297,10 @@ section { padding: 72px 0; }
   width: calc(100% - 32px);
   max-width: 1320px;
 }
+.field-types-section .section-label,
+.field-types-section .section-title {
+  text-align: center;
+}
 .section-desc-center {
   text-align: center;
   margin-inline: auto;
