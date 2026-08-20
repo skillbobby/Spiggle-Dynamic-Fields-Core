@@ -29,7 +29,7 @@ Pro is **$29.99** (limited-time deal, normally **$49.99**). It is not published 
 - `file`, `tags`, `multi_select` form drivers
 - RichEditor, `visible_when`, clone action, colored badge HTML
 
-Get Pro from the [pricing section](https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/#pricing) on the product site, or open a [Buy Dynamic Fields Pro](https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues/new?title=Buy%20Dynamic%20Fields%20Pro) issue on this public repo. When a Lemon Squeezy checkout URL exists, set `LEMON_SQUEEZY_CHECKOUT_URL` on the host — do not invent a checkout domain.
+Get Pro from the [product site](https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/#pricing) or [Lemon Squeezy checkout](https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134). Business licenses: open a [GitHub Issue](https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core/issues/new?title=Business%20license%20inquiry).
 
 ## Install
 
