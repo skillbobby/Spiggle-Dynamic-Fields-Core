@@ -67,8 +67,6 @@ Need file uploads, rich text, tags, or conditional logic? Upgrade to **Dynamic F
 
 Business / unlimited-site licensing: **[Get Business license](https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134)**.
 
-Checkout uses one shared Lemon Squeezy buy URL until per-tier links are published. Activation matching (in Pro) accepts Solo (`2037698`), Pro (`2037699`), and Business (`2037700`) variants for store `451928` / product `1302821`.
-
 ---
 
 ## Requirements

@@ -7,3 +7,9 @@
 *.log
 .dynamic-fields.license
 *.license
+*.zip
+auth.json
+SHOP_READY.md
+BRANCH.md
+docs/licensing.md
+docs/guide-lemonsqueezy.md
