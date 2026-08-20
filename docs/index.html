@@ -33,10 +33,14 @@
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">Get Core free</a>
           <a class="btn btn-accent" href="https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134">Buy Pro license</a>
-          <a class="btn btn-outline" href="#demo">Live demo</a>
+          <a class="btn btn-outline" href="https://skillbobby.com/larafill/public/admin/login" target="_blank" rel="noopener">Live demo</a>
         </div>
         <figure class="hero-shot">
-          <img src="screenshots/create-custom-field.png" alt="Create Custom Field screen in Filament admin" width="1280" height="720">
+          <iframe
+            src="https://www.youtube.com/embed/c5VcwW3_Vfk"
+            title="Spiggle Dynamic Fields demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
         </figure>
       </div>
     </section>
@@ -92,28 +96,18 @@
       <div class="container">
         <div class="section-label">Demo</div>
         <h2 class="section-title">Try it live</h2>
-        <div class="split">
-          <div class="video">
-            <iframe
-              src="https://www.youtube.com/embed/c5VcwW3_Vfk"
-              title="Spiggle Dynamic Fields walkthrough"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              loading="lazy"></iframe>
+        <aside class="demo-box demo-box-centered">
+          <h3>Hosted demo</h3>
+          <p>Log into a Filament panel with Dynamic Fields already installed.</p>
+          <div class="demo-creds">
+            <strong>URL</strong><br>
+            <a href="https://skillbobby.com/larafill/public/admin/login" target="_blank" rel="noopener">skillbobby.com/larafill/public/admin/login</a><br><br>
+            <strong>Email</strong> demo@user.net<br>
+            <strong>Password</strong> password
           </div>
-          <aside class="demo-box">
-            <h3>Hosted demo</h3>
-            <p>Log into a Filament panel with Dynamic Fields already installed.</p>
-            <div class="demo-creds">
-              <strong>URL</strong><br>
-              <a href="https://skillbobby.com/larafill/public/admin/login" target="_blank" rel="noopener">skillbobby.com/larafill/public/admin/login</a><br><br>
-              <strong>Email</strong> demo@user.net<br>
-              <strong>Password</strong> password
-            </div>
-            <p style="margin-top:16px;font-size:0.9rem;color:var(--muted)">Under <strong>System → Custom Fields</strong> to manage definitions.</p>
-            <a class="btn btn-primary" href="https://skillbobby.com/larafill/public/admin/login" target="_blank" rel="noopener" style="width:100%;margin-top:12px">Open demo</a>
-          </aside>
-        </div>
+          <p class="demo-hint">Under <strong>System → Custom Fields</strong> to manage definitions.</p>
+          <a class="btn btn-primary" href="https://skillbobby.com/larafill/public/admin/login" target="_blank" rel="noopener">Open demo</a>
+        </aside>
       </div>
     </section>
 
@@ -121,11 +115,11 @@
       <div class="container">
         <div class="pricing-head">
           <div class="section-label">Pricing</div>
-          <h2 class="section-title">Community is free. Pro &amp; Business add premium types.</h2>
-          <p class="section-desc">Same Pro feature set on paid tiers — license limits differ by site count and support level.</p>
+          <h2 class="section-title">Community is free. Paid tiers unlock Pro features.</h2>
+          <p class="section-desc">Same premium field types on Solo, Pro, and Business — only site limits and support differ.</p>
         </div>
         <div class="pricing-grid">
-          <article class="plan">
+          <article class="plan plan-community">
             <div class="plan-tag">Open source</div>
             <h3>Community</h3>
             <div class="plan-price">Free</div>
@@ -140,13 +134,28 @@
             <a class="btn btn-outline" href="https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core">Download on GitHub</a>
           </article>
 
+          <article class="plan">
+            <div class="plan-tag">1 production site</div>
+            <h3>Solo</h3>
+            <div class="plan-price">$29.99 <small>/year</small></div>
+            <p class="plan-note">Pro drivers · 1 year of updates</p>
+            <ul>
+              <li>Everything in Community</li>
+              <li>File uploads (Spatie Media)</li>
+              <li>Tags &amp; multi-select</li>
+              <li>Rich textarea editor</li>
+              <li>Conditional visibility &amp; clone</li>
+              <li>1 production site</li>
+            </ul>
+            <a class="btn btn-outline" href="https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134">Buy Solo license</a>
+          </article>
+
           <article class="plan popular">
             <span class="badge">Most popular</span>
             <div class="plan-tag">Up to 5 sites</div>
             <h3>Pro</h3>
-            <div class="plan-was">$49.99</div>
-            <div class="plan-price">$29.99 <small>/year</small></div>
-            <p class="plan-note">Limited-time deal · 1 year of updates</p>
+            <div class="plan-price">$89.99 <small>/year</small></div>
+            <p class="plan-note">Pro drivers · 1 year of updates</p>
             <ul>
               <li>Everything in Community</li>
               <li>File uploads (Spatie Media)</li>
@@ -159,10 +168,10 @@
           </article>
 
           <article class="plan">
-            <div class="plan-tag">Agencies &amp; teams</div>
+            <div class="plan-tag">Unlimited sites</div>
             <h3>Business</h3>
-            <div class="plan-price">$79 <small>/year</small></div>
-            <p class="plan-note">Same Pro features · unlimited sites</p>
+            <div class="plan-price">$199.99 <small>/year</small></div>
+            <p class="plan-note">Pro drivers · priority support</p>
             <ul>
               <li>Everything in Pro</li>
               <li>Unlimited production sites</li>
@@ -191,7 +200,7 @@
           </details>
           <details>
             <summary>How does licensing work?</summary>
-            <p>After purchase you receive a license key. Activate it in Filament under <strong>Fields License</strong>. Pro allows up to 5 production domains; Business is unlimited.</p>
+            <p>After purchase you receive a license key. Activate it in Filament under <strong>Fields License</strong>. Solo allows 1 production site, Pro up to 5, Business is unlimited with priority support.</p>
           </details>
           <details>
             <summary>Which Filament versions are supported?</summary>
