@@ -187,20 +187,16 @@
             <p>No. Your team defines fields in the Filament panel — pick a model, set the label, choose a type, add validation rules, save. Forms, table columns, and storage are handled for you. No PHP, no migration per field, no redeploy.</p>
           </details>
           <details>
-            <summary>Does marketing need a developer when they want a new field?</summary>
-            <p>Not for Core field types. An admin can add a Department dropdown with options, mark it required, set <code>max:255</code> or email rules, and enable the table column — all under <strong>System → Custom Fields</strong>.</p>
-          </details>
-          <details>
-            <summary>How fast can I ship a new profile field?</summary>
-            <p>Usually minutes: create the field, assign options if needed, refresh the user form. Values save with the record automatically. Watch the demo — we add a Department select live in the panel.</p>
+            <summary>What validation rules can I use?</summary>
+            <p>Use standard Laravel validation strings directly in the panel field UI (no code): <code>required</code>, <code>email</code>, <code>min</code>/<code>max</code>, <code>numeric</code>, <code>regex</code>, <code>url</code>, <code>in:...</code>, <code>required_if</code>, and <code>nullable</code>. You can also combine rules as needed for custom validation.</p>
           </details>
           <details>
             <summary>Can I attach fields to Users, Products, or other models?</summary>
             <p>Yes — any Eloquent model. Add the <code>HasCustomFields</code> trait once, wire the mapper in your Filament resource, then create as many fields as you need from the UI.</p>
           </details>
           <details>
-            <summary>What's the difference between Core and Pro?</summary>
-            <p><strong>Core is free</strong> and covers everyday fields: text, select, dates, toggles, and more. <strong>Pro</strong> unlocks file uploads, tags, multi-select, rich text, conditional visibility, and clone — ideal when you need more than standard attributes. Same no-code workflow; Pro just opens more types.</p>
+            <summary>What's the difference between Community edition and Pro?</summary>
+            <p><strong>Community edition is free and open-source</strong> on GitHub and covers everyday fields: text, select, dates, toggles, and more. Paid tiers (Solo, Pro, Business) unlock premium features like file uploads, tags, multi-select, rich text, conditional visibility, and clone.</p>
           </details>
           <details>
             <summary>Will custom fields slow down my app?</summary>
@@ -208,7 +204,7 @@
           </details>
           <details>
             <summary>How does licensing work?</summary>
-            <p>Core is MIT and free forever on GitHub. Paid tiers (Solo, Pro, Business) include a license key you activate in Filament. Solo = 1 site, Pro = up to 5, Business = unlimited with priority support.</p>
+            <p>Community edition is free and open-source on GitHub. Paid Solo, Pro, and Business are license tiers for premium features. After purchase, activate your license key in Filament Fields License. Site limits: Solo 1, Pro 5, Business unlimited (plus priority support).</p>
           </details>
         </div>
       </div>
