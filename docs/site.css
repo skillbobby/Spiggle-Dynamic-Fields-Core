@@ -500,6 +500,9 @@ section { padding: 72px 0; }
 .demo-layout .demo-box {
   margin: 0;
   text-align: left;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .demo-box h3 { margin: 0 0 12px; font-size: 1.1rem; }
 .demo-box p { margin: 0 0 16px; color: var(--muted); font-size: 0.95rem; }
@@ -527,6 +530,7 @@ section { padding: 72px 0; }
   margin: 0;
   padding-left: 18px;
   color: var(--muted);
+  line-height: 1.55;
 }
 .demo-steps li + li {
   margin-top: 8px;
