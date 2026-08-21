@@ -63,9 +63,9 @@ Need file uploads, rich text, tags, or conditional logic? Upgrade to **Dynamic F
 | **Clone** | Duplicate field definitions in one click |
 | **License management** | Activate and manage your Pro license in Filament |
 
-**[Get Pro license](https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134)**
+**[Get Pro license](https://kodesmart.lemonsqueezy.com/checkout/buy/da102aee-e7fa-41b1-8f8d-bf552776edb1?enabled=2037699)**
 
-Business / unlimited-site licensing: **[Get Business license](https://kodesmart.lemonsqueezy.com/checkout/buy/363bfd12-ed05-42aa-b04b-f9a4a5e2c134)**.
+Business / unlimited-site licensing: **[Get Business license](https://kodesmart.lemonsqueezy.com/checkout/buy/4ad8647d-2bfc-4aca-a2f1-923236b32cd4?enabled=2037700)**.
 
 ---
 
