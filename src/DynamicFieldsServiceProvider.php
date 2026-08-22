@@ -11,17 +11,20 @@ use Spiggle\DynamicFields\Services\CustomFieldMapper;
 use Spiggle\DynamicFields\Services\FieldDefinitionCache;
 use Spiggle\DynamicFields\Services\ModelDiscoverer;
 use Spiggle\DynamicFields\Support\DynamicFieldRegistry;
+use Spiggle\DynamicFields\Licensing\AddonLicenseRegistry;
 
 class DynamicFieldsServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/dynamic-fields.php', 'dynamic-fields');
+        $this->mergeConfigFrom(__DIR__.'/../config/spiggle-licensing.php', 'spiggle-licensing');
 
         $this->app->singleton(CustomFieldMapper::class);
         $this->app->singleton(ModelDiscoverer::class);
         $this->app->singleton(FieldDefinitionCache::class);
         $this->app->singleton(DynamicFieldRegistry::class);
+        $this->app->singleton(AddonLicenseRegistry::class);
     }
 
     public function boot(): void
@@ -29,6 +32,10 @@ class DynamicFieldsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/dynamic-fields.php' => config_path('dynamic-fields.php'),
         ], 'dynamic-fields-config');
+
+        $this->publishes([
+            __DIR__.'/../config/spiggle-licensing.php' => config_path('spiggle-licensing.php'),
+        ], 'spiggle-licensing-config');
 
         $this->publishes([
             __DIR__.'/../database/migrations' => database_path('migrations'),

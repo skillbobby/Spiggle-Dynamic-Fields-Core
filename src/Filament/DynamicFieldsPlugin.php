@@ -5,6 +5,7 @@ namespace Spiggle\DynamicFields\Filament;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Spiggle\DynamicFields\Filament\Resources\CustomFields\CustomFieldResource;
+use Spiggle\DynamicFields\Licensing\Filament\SpiggleLicensingPlugin;
 
 class DynamicFieldsPlugin implements Plugin
 {
@@ -32,10 +33,7 @@ class DynamicFieldsPlugin implements Plugin
             CustomFieldResource::class,
         ]);
 
-        $licensePage = 'Spiggle\\DynamicFields\\Pro\\Filament\\Pages\\ManageAddonLicense';
-        if (class_exists($licensePage)) {
-            $panel->pages([$licensePage]);
-        }
+        $panel->plugin(SpiggleLicensingPlugin::make());
     }
 
     public function boot(Panel $panel): void
