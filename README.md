@@ -15,7 +15,7 @@ Create and manage fields from the admin panel. Values live in indexed EAV tables
 
 | | |
 |---|---|
-| **Package** | `spiggle/dynamic-fields-core` v1.2.2 |
+| **Package** | `spiggle/dynamic-fields-core` v2.0.0 |
 | **License** | MIT (Community Edition) |
 | **GitHub** | [skillbobby/Spiggle-Dynamic-Fields-Core](https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core) |
 | **Docs** | [Product site & guide](https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/) |
