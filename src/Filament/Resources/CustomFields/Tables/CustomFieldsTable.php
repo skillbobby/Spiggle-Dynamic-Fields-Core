@@ -12,6 +12,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Spiggle\DynamicFields\Filament\Resources\CustomFields\CustomFieldResource;
 use Spiggle\DynamicFields\Filament\Support\ProUpsell;
 use Spiggle\DynamicFields\Models\CustomField;
 use Spiggle\DynamicFields\Services\ModelDiscoverer;
@@ -64,7 +65,9 @@ class CustomFieldsTable
                     ->options(FieldTypes::labels()),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->modal(false)
+                    ->url(fn (CustomField $record): string => CustomFieldResource::getUrl('edit', ['record' => $record])),
                 Action::make('clone')
                     ->label(fn (): string => FeatureCatalog::proUnlocked() ? 'Clone' : 'Clone · PRO')
                     ->icon('heroicon-o-document-duplicate')

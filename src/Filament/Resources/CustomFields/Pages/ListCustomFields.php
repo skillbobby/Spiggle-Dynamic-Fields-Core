@@ -12,7 +12,9 @@ class ListCustomFields extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            \Filament\Actions\CreateAction::make(),
+            \Filament\Actions\CreateAction::make()
+                ->modal(false)
+                ->url(fn (): string => static::getResource()::getUrl('create')),
         ];
     }
 }

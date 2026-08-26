@@ -109,6 +109,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Table Columns
+    |--------------------------------------------------------------------------
+    | Custom field columns are always registered so Filament's column manager
+    | can toggle them. When hide_columns_by_default is true, only fields with
+    | meta.show_in_table appear visible initially; others stay toggleable.
+    */
+    'table' => [
+        'hide_columns_by_default' => env('DYNAMIC_FIELDS_HIDE_TABLE_COLUMNS_BY_DEFAULT', true),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Pro upsell
     |--------------------------------------------------------------------------
     | Checkout URL shown when a Core install selects a Pro-only type.

@@ -13,6 +13,7 @@ use Spiggle\DynamicFields\Filament\Resources\CustomFields\Pages\ListCustomFields
 use Spiggle\DynamicFields\Filament\Resources\CustomFields\Schemas\CustomFieldForm;
 use Spiggle\DynamicFields\Filament\Resources\CustomFields\Tables\CustomFieldsTable;
 use Spiggle\DynamicFields\Models\CustomField;
+use Spiggle\DynamicFields\Support\CustomFieldAuthorization;
 use UnitEnum;
 
 class CustomFieldResource extends Resource
@@ -73,36 +74,31 @@ class CustomFieldResource extends Resource
 
     public static function canAccess(): bool
     {
-        $user = auth()->user();
+        return static::userCanManageCustomFields();
+    }
 
-        if (! $user) {
-            return false;
-        }
+    public static function canViewAny(): bool
+    {
+        return static::userCanManageCustomFields();
+    }
 
-        $permission = config('dynamic-fields.permissions.manage', 'manage_custom_fields');
+    public static function canCreate(): bool
+    {
+        return static::userCanManageCustomFields();
+    }
 
-        if (method_exists($user, 'can') && method_exists($user, 'hasRole')) {
-            try {
-                if ($user->can($permission) || $user->hasRole('super_admin')) {
-                    return true;
-                }
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return static::userCanManageCustomFields();
+    }
 
-                // If Shield permissions have not been generated yet, allow
-                // authenticated panel access so the package remains usable.
-                if (! class_exists(\Spatie\Permission\Models\Permission::class)) {
-                    return true;
-                }
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return static::userCanManageCustomFields();
+    }
 
-                $exists = \Spatie\Permission\Models\Permission::query()
-                    ->where('name', $permission)
-                    ->exists();
-
-                return ! $exists;
-            } catch (\Throwable) {
-                return true;
-            }
-        }
-
-        return true;
+    protected static function userCanManageCustomFields(): bool
+    {
+        return CustomFieldAuthorization::userCanManage();
     }
 }

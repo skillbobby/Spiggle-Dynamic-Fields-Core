@@ -90,6 +90,29 @@ class CustomFieldMapper
         return $registry;
     }
 
+    protected function fieldShowsInTable(CustomField $field): bool
+    {
+        return $field->showInTable();
+    }
+
+    protected function columnHiddenByDefault(CustomField $field): bool
+    {
+        if (! config('dynamic-fields.table.hide_columns_by_default', true)) {
+            return false;
+        }
+
+        return ! $this->fieldShowsInTable($field);
+    }
+
+    protected function applyTableColumnVisibility(mixed $column, CustomField $field): mixed
+    {
+        if ($column === null || ! method_exists($column, 'toggleable')) {
+            return $column;
+        }
+
+        return $column->toggleable(isToggledHiddenByDefault: $this->columnHiddenByDefault($field));
+    }
+
     /**
      * @return Collection<int, CustomField>
      */
@@ -173,7 +196,7 @@ class CustomFieldMapper
 
         $override = $registry->table($field->type);
         if ($override) {
-            return $override($field);
+            return $this->applyTableColumnVisibility($override($field), $field);
         }
 
         $columnName = 'custom_fields.'.$field->name;
@@ -182,16 +205,13 @@ class CustomFieldMapper
             return IconColumn::make($columnName)
                 ->label($field->label)
                 ->boolean()
-                ->getStateUsing(fn (Model $record) => (bool) (
-                    method_exists($record, 'getCustomFieldValue')
-                        ? $record->getCustomFieldValue($field->name)
-                        : null
-                ));
+                ->toggleable(isToggledHiddenByDefault: $this->columnHiddenByDefault($field))
+                ->getStateUsing(fn (Model $record) => (bool) $this->readCustomFieldValue($record, $field));
         }
 
         return TextColumn::make($columnName)
             ->label($field->label)
-            ->toggleable()
+            ->toggleable(isToggledHiddenByDefault: $this->columnHiddenByDefault($field))
             ->getStateUsing(function (Model $record) use ($field) {
                 return $this->formatScalarState($record, $field);
             })
@@ -223,11 +243,7 @@ class CustomFieldMapper
             return IconEntry::make($name)
                 ->label($field->label)
                 ->boolean()
-                ->getStateUsing(fn (Model $record) => (bool) (
-                    method_exists($record, 'getCustomFieldValue')
-                        ? $record->getCustomFieldValue($field->name)
-                        : null
-                ));
+                ->getStateUsing(fn (Model $record) => (bool) $this->readCustomFieldValue($record, $field));
         }
 
         return TextEntry::make($name)
@@ -238,13 +254,22 @@ class CustomFieldMapper
             });
     }
 
-    protected function formatScalarState(Model $record, CustomField $field): ?string
+    protected function readCustomFieldValue(Model $record, CustomField $field): mixed
     {
+        if (method_exists($record, 'getCustomFieldsAttribute')) {
+            return data_get($record->custom_fields, $field->name);
+        }
+
         if (! method_exists($record, 'getCustomFieldValue')) {
             return null;
         }
 
-        $value = $record->getCustomFieldValue($field->name);
+        return $record->getCustomFieldValue($field->name);
+    }
+
+    protected function formatScalarState(Model $record, CustomField $field): ?string
+    {
+        $value = $this->readCustomFieldValue($record, $field);
 
         if ($value === null) {
             return null;

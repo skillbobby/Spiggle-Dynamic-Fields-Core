@@ -19,6 +19,9 @@ trait HasCustomFields
     /** @var array<string, mixed> */
     protected array $pendingCustomFieldValues = [];
 
+    /** @var array<string, CustomFieldValue>|null */
+    protected ?array $customFieldValuesByName = null;
+
     public function initializeHasCustomFields(): void
     {
         if (config('dynamic-fields.append_to_json', true)) {
@@ -97,6 +100,7 @@ trait HasCustomFields
         $record->save();
 
         if ($this->relationLoaded('customFieldValues')) {
+            $this->customFieldValuesByName = null;
             $this->unsetRelation('customFieldValues');
             $this->load('customFieldValues.customField');
         }
@@ -122,23 +126,12 @@ trait HasCustomFields
     public function getCustomFieldsAttribute(): array
     {
         $definitions = FieldDefinitionCache::forModel(static::class);
-        $result = [];
 
-        foreach ($definitions as $field) {
-            $result[$field->name] = $this->getCustomFieldValue($field->name);
+        if (! $this->relationLoaded('customFieldValues')) {
+            $this->loadMissing(['customFieldValues.customField.options']);
         }
 
-        // Include any loaded values even if definition cache is empty/stale.
-        if ($this->relationLoaded('customFieldValues')) {
-            foreach ($this->customFieldValues as $value) {
-                $name = $value->customField?->name;
-                if ($name && ! array_key_exists($name, $result)) {
-                    $result[$name] = $value->getCastedValue();
-                }
-            }
-        }
-
-        return $result;
+        return $this->buildCustomFieldsArray($definitions);
     }
 
     /**
@@ -156,9 +149,20 @@ trait HasCustomFields
     protected function findCustomFieldValueRecord(string $fieldName): ?CustomFieldValue
     {
         if ($this->relationLoaded('customFieldValues')) {
+            $indexed = $this->indexedCustomFieldValues();
+
+            if (isset($indexed[$fieldName])) {
+                return $indexed[$fieldName];
+            }
+
+            $fieldId = $this->resolveFieldId($fieldName);
+
+            if ($fieldId === null) {
+                return null;
+            }
+
             return $this->customFieldValues->first(
-                fn (CustomFieldValue $value) => $value->customField?->name === $fieldName
-                    || (int) $value->custom_field_id === (int) $this->resolveFieldId($fieldName)
+                fn (CustomFieldValue $value) => (int) $value->custom_field_id === $fieldId
             );
         }
 
@@ -166,6 +170,84 @@ trait HasCustomFields
             ->whereHas('customField', fn ($q) => $q->where('name', $fieldName))
             ->with('customField')
             ->first();
+    }
+
+    /**
+     * @return array<string, CustomFieldValue>
+     */
+    protected function indexedCustomFieldValues(): array
+    {
+        if ($this->customFieldValuesByName !== null) {
+            return $this->customFieldValuesByName;
+        }
+
+        $indexed = [];
+
+        if ($this->relationLoaded('customFieldValues')) {
+            foreach ($this->customFieldValues as $value) {
+                $name = $value->customField?->name;
+
+                if ($name !== null) {
+                    $indexed[$name] = $value;
+                }
+            }
+        }
+
+        return $this->customFieldValuesByName = $indexed;
+    }
+
+    /**
+     * @param  \Illuminate\Support\Collection<int, CustomField>  $definitions
+     * @return array<string, mixed>
+     */
+    protected function buildCustomFieldsArray($definitions): array
+    {
+        $valuesByName = [];
+        $valuesByFieldId = [];
+
+        foreach ($this->customFieldValues as $value) {
+            $valuesByFieldId[(int) $value->custom_field_id] = $value;
+
+            $name = $value->customField?->name;
+            if ($name !== null) {
+                $valuesByName[$name] = $value;
+            }
+        }
+
+        $result = [];
+
+        foreach ($definitions as $field) {
+            if ($field->type === 'file') {
+                $fileValue = $this->resolveCustomFileFieldValue($field);
+                if ($fileValue !== null) {
+                    $result[$field->name] = $fileValue;
+
+                    continue;
+                }
+            }
+
+            $record = $valuesByName[$field->name] ?? $valuesByFieldId[(int) $field->id] ?? null;
+            $result[$field->name] = $record?->getCastedValue();
+        }
+
+        foreach ($valuesByName as $name => $value) {
+            if (! array_key_exists($name, $result)) {
+                $result[$name] = $value->getCastedValue();
+            }
+        }
+
+        return $result;
+    }
+
+    protected function resolveCustomFileFieldValue(CustomField $field): mixed
+    {
+        $synchronizer = \Spiggle\DynamicFields\Pro\Services\FileFieldSynchronizer::class;
+
+        if ($field->type !== 'file' || ! class_exists($synchronizer) || ! method_exists($this, 'getMedia')) {
+            return null;
+        }
+
+        return $synchronizer::payloadFromModel($this, $field);
     }
 
     protected function resolveFieldId(string $fieldName): ?int

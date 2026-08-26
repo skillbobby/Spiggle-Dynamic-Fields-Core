@@ -2,11 +2,14 @@
 
 namespace Spiggle\DynamicFields;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Spiggle\DynamicFields\Console\ExportFieldsCommand;
 use Spiggle\DynamicFields\Console\ImportFieldsCommand;
 use Spiggle\DynamicFields\Console\SeedStandardUserFieldsCommand;
 use Spiggle\DynamicFields\Console\VerifyFieldsCommand;
+use Spiggle\DynamicFields\Models\CustomField;
+use Spiggle\DynamicFields\Policies\CustomFieldPolicy;
 use Spiggle\DynamicFields\Services\CustomFieldMapper;
 use Spiggle\DynamicFields\Services\FieldDefinitionCache;
 use Spiggle\DynamicFields\Services\ModelDiscoverer;
@@ -29,6 +32,8 @@ class DynamicFieldsServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Gate::policy(CustomField::class, CustomFieldPolicy::class);
+
         $this->publishes([
             __DIR__.'/../config/dynamic-fields.php' => config_path('dynamic-fields.php'),
         ], 'dynamic-fields-config');

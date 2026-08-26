@@ -111,6 +111,11 @@ class CustomField extends Model
         return $this->optionColorMap()[$value] ?? null;
     }
 
+    public function showInTable(): bool
+    {
+        return (bool) data_get($this->meta, 'show_in_table', false);
+    }
+
     public function valueType(): string
     {
         return match ($this->type) {

@@ -8,13 +8,20 @@ use Spiggle\DynamicFields\Models\CustomField;
 
 class FieldDefinitionCache
 {
+    /** @var array<string, Collection<int, CustomField>> */
+    protected static array $memory = [];
+
     /**
      * @return Collection<int, CustomField>
      */
     public static function forModel(string $modelClass): Collection
     {
+        if (isset(self::$memory[$modelClass])) {
+            return self::$memory[$modelClass];
+        }
+
         if (! config('dynamic-fields.cache.enabled', true)) {
-            return self::query($modelClass);
+            return self::$memory[$modelClass] = self::query($modelClass);
         }
 
         $key = self::key($modelClass);
@@ -33,7 +40,7 @@ class FieldDefinitionCache
             }
         );
 
-        return collect($payload)->map(function (array $attributes) {
+        return self::$memory[$modelClass] = collect($payload)->map(function (array $attributes) {
             $options = $attributes['options'] ?? [];
             unset($attributes['options']);
 
@@ -60,6 +67,7 @@ class FieldDefinitionCache
 
     public static function forget(string $modelClass): void
     {
+        unset(self::$memory[$modelClass]);
         Cache::forget(self::key($modelClass));
     }
 

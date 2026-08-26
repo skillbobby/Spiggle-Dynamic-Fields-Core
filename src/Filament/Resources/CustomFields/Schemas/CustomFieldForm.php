@@ -53,6 +53,11 @@ class CustomFieldForm
                             ->label('Required')
                             ->default(false)
                             ->inline(false),
+                        Toggle::make('meta.show_in_table')
+                            ->label('Show in table by default')
+                            ->helperText('When enabled, this field\'s column is visible on list tables. All custom fields remain available in the column manager.')
+                            ->default(false)
+                            ->inline(false),
                         TextInput::make('sort_order')
                             ->numeric()
                             ->default(0)
