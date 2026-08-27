@@ -2,7 +2,7 @@
     "name": "spiggle/dynamic-fields-core",
     "description": "Filament Dynamic Custom Fields (EAV) for Laravel — Core field types, Field Manager, and mapper.",
     "type": "library",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "license": "MIT",
     "homepage": "https://github.com/skillbobby/Spiggle-Dynamic-Fields-Core",
     "support": {

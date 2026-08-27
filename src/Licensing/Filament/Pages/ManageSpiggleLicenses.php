@@ -115,6 +115,9 @@ class ManageSpiggleLicenses extends Page
                     : ($authorized ? 'Activated' : 'Not activated'))
                     ->badge()
                     ->color(! $enforced ? 'warning' : ($authorized ? 'success' : 'danger')),
+                Text::make(fn (): string => $addon->installedVersionsLabel())
+                    ->color('gray')
+                    ->visible(fn (): bool => $addon->installedVersionsLabel() !== ''),
                 Text::make(fn () => $authorized
                     ? 'Key '.$status['masked_key'].' · instance '.substr((string) ($status['instance_id'] ?? ''), 0, 8).'…'
                     : $addon->inactiveDescription)
