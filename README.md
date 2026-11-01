@@ -175,7 +175,7 @@ php artisan dynamic-fields:seed-user-fields
 ## Related
 
 - **[Full documentation](https://skillbobby.github.io/Spiggle-Dynamic-Fields-Core/guide/)** — architecture, workflows, configuration
-- **[Live demo](https://skillbobby.com/larafill/public/admin/login)** — `demo@user.net` / `password`
+- **[Live demo](https://spiggle.skillbobby.com)** — `demo@spiggle.net` / `password`
 - **[Spiggle Form Builder](https://skillbobby.github.io/Spiggle-Plugins/form-builder/)** — public forms that reuse the same field types
 
 ---
