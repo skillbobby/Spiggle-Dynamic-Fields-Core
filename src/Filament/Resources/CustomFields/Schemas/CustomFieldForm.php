@@ -27,7 +27,9 @@ class CustomFieldForm
                 Grid::make([
                     'default' => 1,
                     'lg' => 2,
-                ])->schema([
+                ])
+                    ->columnSpanFull()
+                    ->schema([
                     Section::make('Field Definition')
                         ->columns(2)
                         ->schema([
