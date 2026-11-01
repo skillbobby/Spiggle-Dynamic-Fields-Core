@@ -2,15 +2,21 @@
 
 namespace Spiggle\DynamicFields\Console;
 
+use App\Models\User;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Spiggle\DynamicFields\Models\CustomField;
+use Spiggle\DynamicFields\Pro\Services\FileFieldSynchronizer;
 use Spiggle\DynamicFields\Services\CustomFieldMapper;
 use Spiggle\DynamicFields\Support\FeatureCatalog;
 use Spiggle\DynamicFields\Support\FieldTypes;
@@ -25,7 +31,7 @@ class VerifyFieldsCommand extends Command
 
     public function handle(): int
     {
-        $modelClass = $this->option('model') ?: \App\Models\User::class;
+        $modelClass = $this->option('model') ?: User::class;
         $failures = 0;
 
         $failures += $this->assertTrue(class_exists($modelClass), "Model {$modelClass} exists");
@@ -59,6 +65,16 @@ class VerifyFieldsCommand extends Command
         $failures += $this->assertTrue(str_contains($formSource, 'collapsed()'), 'options repeater is collapsed by default');
         $failures += $this->assertTrue(str_contains($formSource, 'collapsible()'), 'options repeater is collapsible');
         $failures += $this->assertTrue(str_contains($formSource, 'reorderable()'), 'options repeater is reorderable');
+        $limitsAt = strpos($formSource, "Section::make('Selection limits')");
+        $optionsAt = strpos($formSource, "Section::make('Options')");
+        $failures += $this->assertTrue(
+            str_contains($formSource, 'Grid::make') && str_contains($formSource, 'Group::make'),
+            'field form places the side cards in a second column'
+        );
+        $failures += $this->assertTrue(
+            is_int($limitsAt) && is_int($optionsAt) && $limitsAt < $optionsAt,
+            'options section follows selection limits'
+        );
 
         $mapper = app(CustomFieldMapper::class);
         $components = $mapper->makeFormFields($modelClass);
@@ -76,7 +92,7 @@ class VerifyFieldsCommand extends Command
 
         $typeChecks = [
             'bio' => [Textarea::class, false],
-            'first_name' => [\Filament\Forms\Components\TextInput::class, false],
+            'first_name' => [TextInput::class, false],
             'department' => [Select::class, false],
         ];
 
@@ -98,6 +114,7 @@ class VerifyFieldsCommand extends Command
             $key = $stateKey.'.'.$fieldName;
             if (! isset($byName[$key])) {
                 $this->warn("Field [{$fieldName}] not in mapper output (seed extended fields?).");
+
                 continue;
             }
             $component = $byName[$key];
@@ -108,7 +125,7 @@ class VerifyFieldsCommand extends Command
         }
 
         if (isset($byName[$stateKey.'.profile_documents'])) {
-            $fileClass = \Filament\Forms\Components\SpatieMediaLibraryFileUpload::class;
+            $fileClass = SpatieMediaLibraryFileUpload::class;
             $failures += $this->assertTrue(
                 class_exists($fileClass) && $byName[$stateKey.'.profile_documents'] instanceof $fileClass,
                 'profile_documents maps to SpatieMediaLibraryFileUpload'
@@ -122,10 +139,10 @@ class VerifyFieldsCommand extends Command
             return $failures === 0 ? self::SUCCESS : self::FAILURE;
         }
 
-        \Illuminate\Support\Facades\DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
-            /** @var \Illuminate\Database\Eloquent\Model $record */
+            /** @var Model $record */
             $record = $modelClass::factory()->create();
 
             $record->setCustomFieldValue('first_name', 'Ada');
@@ -177,7 +194,7 @@ class VerifyFieldsCommand extends Command
                 $this->warn('File field exists but model is missing HasMedia / addMedia().');
             }
         } finally {
-            \Illuminate\Support\Facades\DB::rollBack();
+            DB::rollBack();
         }
 
         $this->printSummary($failures);
@@ -200,7 +217,7 @@ class VerifyFieldsCommand extends Command
                 ->where('name', 'profile_documents')
                 ->first();
 
-            $synchronizer = \Spiggle\DynamicFields\Pro\Services\FileFieldSynchronizer::class;
+            $synchronizer = FileFieldSynchronizer::class;
             if (! class_exists($synchronizer)) {
                 return 0;
             }
